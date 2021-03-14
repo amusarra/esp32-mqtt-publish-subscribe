@@ -4,7 +4,7 @@
  *  
  * MIT License
  * 
- * T-Call_ESP32_SIM800L - Samples code
+ * ESP32 MQTT - Samples code
  * Copyright (c) 2021 Antonio Musarra's Blog - https://www.dontesta.it
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -68,14 +68,9 @@ const char *device_name = STR(DEVICE_NAME);
 #endif
 
 // Relay pre-defined command
-#define RELAY_00_COMMAND_ON "relay 0 on"
-#define RELAY_00_COMMAND_OFF "relay 0 off"
-#define RELAY_01_COMMAND_ON "relay 1 on"
-#define RELAY_01_COMMAND_OFF "relay 1 off"
-#define RELAY_02_COMMAND_ON "relay 2 on"
-#define RELAY_02_COMMAND_OFF "relay 2 off"
-#define RELAY_03_COMMAND_ON "relay 3 on"
-#define RELAY_03_COMMAND_OFF "relay 3 off"
+#define RELAY_COMMAND_ON "on"
+#define RELAY_COMMAND_OFF "off"
+#define RELAY_COMMAND_STATUS "status"
 
 // Relay Identification
 enum Relay
@@ -148,8 +143,15 @@ NTPClient timeClient(ntpUDP);
 PubSubClient client(mqtt_server, mqtt_port, callback, espClient);
 
 /**
- * MQTT Callback
- */
+  * MQTT Callback
+  * 
+  * If a message is received on the topic esp32/command (es. Relay off or on).
+  * Format: {$device-name}:{relay;$relayId;$command}
+  * Es: 
+  *  esp32-zone-1:relay;3;off (switch off relay 3 of the specified device)
+  *  esp32-zone-1:relay;2;on (switch on relay 2 of the specified device)
+  *  esp32-zone-1:relay;3;status (get status of the relay 3 of the specified device) 
+  */
 void callback(char *topic, byte *message, unsigned int length)
 {
   String messageTemp;
@@ -162,81 +164,119 @@ void callback(char *topic, byte *message, unsigned int length)
   Log.notice(F("Message arrived on topic: %s" CR), topic);
   Log.notice(F("Message Content: %s" CR), messageTemp.c_str());
 
-  // If a message is received on the topic esp32/command (es. Relay off or on).
-  // Changes the output state according to the message
   if ((String)topic == (String)topic_command)
   {
-    int indexOfCommandSeparator = messageTemp.indexOf(":");
 
-    String deviceName = messageTemp.substring(0, indexOfCommandSeparator);
-    String statement = messageTemp.substring(indexOfCommandSeparator + 1,
+    /**
+     * Parsing of the received command string. This piece of code 
+     * could be written using regular expressions.
+     * ([a-zA-Z,0-9,\-]{3,12}):(\w+);([0-3]);(off|on|status) this could be the 
+     * regular expression which should be sufficient to satisfy the given format.
+     */
+    int indexOfDeviceSeparator = messageTemp.indexOf(":");
+    
+    String deviceName = messageTemp.substring(0, indexOfDeviceSeparator);
+    String statement = messageTemp.substring(indexOfDeviceSeparator + 1,
                                              messageTemp.length());
 
-    if (!deviceName.isEmpty() && !statement.isEmpty() &&
+    int indexOfStatementSeparator = statement.indexOf(";");
+    int relayId = statement.substring(indexOfStatementSeparator + 1,
+                                      indexOfStatementSeparator + 2)
+                      .toInt();
+    String command = statement.substring(statement.lastIndexOf(";") + 1,
+                                         statement.length());
+
+    if (!deviceName.isEmpty() && !statement.isEmpty() && !command.isEmpty() &&
         (String)device_name == deviceName)
     {
-      Log.notice(F("Try to execute this statement: %s for device name: %s" CR),
-                 statement.c_str(), deviceName.c_str());
+      Log.notice(F("Try to execute this statement (command %s): %s for relay %d on the device name: %s" CR),
+                 command.c_str(), statement.c_str(), relayId, deviceName.c_str());
 
-      if (statement == RELAY_00_COMMAND_ON)
+      switch (relayId)
       {
-        digitalWrite(Relay_00_Pin, LOW);
-        update_relay_status(Relay_00, relay_status_on);
+      case Relay_00:
+        if (command == RELAY_COMMAND_ON)
+        {
+          digitalWrite(Relay_00_Pin, LOW);
+          update_relay_status(Relay_00, relay_status_on);
 
-        Log.notice(F("Switch On relay 0" CR));
-      }
-      else if (statement == RELAY_00_COMMAND_OFF)
-      {
-        digitalWrite(Relay_00_Pin, HIGH);
-        update_relay_status(Relay_00, relay_status_off);
+          Log.notice(F("Switch On relay 0" CR));
+        }
+        else if (command == RELAY_COMMAND_OFF)
+        {
+          digitalWrite(Relay_00_Pin, HIGH);
+          update_relay_status(Relay_00, relay_status_off);
 
-        Log.notice(F("Switch Off relay 0" CR));
-      }
-      else if (statement == RELAY_01_COMMAND_ON)
-      {
-        digitalWrite(Relay_01_Pin, LOW);
-        update_relay_status(Relay_01, relay_status_on);
+          Log.notice(F("Switch Off relay 0" CR));
+        }
+        else if (command == RELAY_COMMAND_STATUS)
+        {
+          digitalRead(Relay_00_Pin) == LOW ? update_relay_status(Relay_00, relay_status_on) : update_relay_status(Relay_00, relay_status_off);
+        }
+        break;
+      case Relay_01:
+        if (command == RELAY_COMMAND_ON)
+        {
+          digitalWrite(Relay_01_Pin, LOW);
+          update_relay_status(Relay_01, relay_status_on);
 
-        Log.notice(F("Switch On relay 1" CR));
-      }
-      else if (statement == RELAY_01_COMMAND_OFF)
-      {
-        digitalWrite(Relay_01_Pin, HIGH);
-        update_relay_status(Relay_01, relay_status_off);
+          Log.notice(F("Switch On relay 1" CR));
+        }
+        else if (command == RELAY_COMMAND_OFF)
+        {
+          digitalWrite(Relay_01_Pin, HIGH);
+          update_relay_status(Relay_01, relay_status_off);
 
-        Log.notice(F("Switch Off relay 1" CR));
-      }
-      else if (statement == RELAY_02_COMMAND_ON)
-      {
-        digitalWrite(Relay_02_Pin, LOW);
-        update_relay_status(Relay_02, relay_status_on);
+          Log.notice(F("Switch Off relay 1" CR));
+        }
+        else if (command == RELAY_COMMAND_STATUS)
+        {
+          digitalRead(Relay_01_Pin) == LOW ? update_relay_status(Relay_01, relay_status_on) : update_relay_status(Relay_01, relay_status_off);
+        }
+        break;
+      case Relay_02:
+        if (command == RELAY_COMMAND_ON)
+        {
+          digitalWrite(Relay_02_Pin, LOW);
+          update_relay_status(Relay_02, relay_status_on);
 
-        Log.notice(F("Switch On relay 2" CR));
-      }
-      else if (statement == RELAY_02_COMMAND_OFF)
-      {
-        digitalWrite(Relay_02_Pin, HIGH);
-        update_relay_status(Relay_02, relay_status_off);
+          Log.notice(F("Switch On relay 2" CR));
+        }
+        else if (command == RELAY_COMMAND_OFF)
+        {
+          digitalWrite(Relay_02_Pin, HIGH);
+          update_relay_status(Relay_02, relay_status_off);
 
-        Log.notice(F("Switch Off relay 2" CR));
-      }
-      else if (statement == RELAY_03_COMMAND_ON)
-      {
-        digitalWrite(Relay_03_Pin, LOW);
-        update_relay_status(Relay_03, relay_status_on);
+          Log.notice(F("Switch Off relay 2" CR));
+        }
+        else if (command == RELAY_COMMAND_STATUS)
+        {
+          digitalRead(Relay_02_Pin) == LOW ? update_relay_status(Relay_02, relay_status_on) : update_relay_status(Relay_02, relay_status_off);
+        }
+        break;
+      case Relay_03:
+        if (command == RELAY_COMMAND_ON)
+        {
+          digitalWrite(Relay_03_Pin, LOW);
+          update_relay_status(Relay_03, relay_status_on);
 
-        Log.notice(F("Switch On relay 3" CR));
-      }
-      else if (statement == RELAY_03_COMMAND_OFF)
-      {
-        digitalWrite(Relay_03_Pin, HIGH);
-        update_relay_status(Relay_03, relay_status_off);
+          Log.notice(F("Switch On relay 3" CR));
+        }
+        else if (command == RELAY_COMMAND_OFF)
+        {
+          digitalWrite(Relay_03_Pin, HIGH);
+          update_relay_status(Relay_03, relay_status_off);
 
-        Log.notice(F("Switch Off relay 3" CR));
-      }
-      else
-      {
-        Log.warning(F("No command recognized" CR));
+          Log.notice(F("Switch Off relay 3" CR));
+        }
+        else if (command == RELAY_COMMAND_STATUS)
+        {
+          digitalRead(Relay_03_Pin) == LOW ? update_relay_status(Relay_03, relay_status_on) : update_relay_status(Relay_03, relay_status_off);
+        }
+        break;
+      default:
+        Log.warning(F("No relayId recognized" CR));
+        break;
       }
     }
   }

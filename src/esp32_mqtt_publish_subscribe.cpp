@@ -97,7 +97,7 @@ const int daylightOffset_sec = 3600;
 
 /**
  * MQTT Broker Connection details
- * 1. Defined the topic for telemetry data (temperature and humidity)
+ * 1. Defined the topic for telemetry data (temperature, humidity and pressure)
  * 2. Defined the topic about status of the relay 0
  * 3. Defined the topic about status of the relay 1
  * 4. Defined the topic about status of the relay 2
@@ -192,6 +192,11 @@ void callback(char *topic, byte *message, unsigned int length)
       Log.notice(F("Try to execute this statement (command %s): %s for relay %d on the device name: %s" CR),
                  command.c_str(), statement.c_str(), relayId, deviceName.c_str());
 
+      /**
+       * The following code block is responsible for executing the instructions 
+       * received from the command topic. This block of code is purely 
+       * educational and can be optimizing to avoid redundant code.
+       */
       switch (relayId)
       {
       case Relay_00:

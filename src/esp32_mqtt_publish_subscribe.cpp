@@ -152,82 +152,92 @@ PubSubClient client(mqtt_server, mqtt_port, callback, espClient);
  */
 void callback(char *topic, byte *message, unsigned int length)
 {
-  Log.notice(F("Message arrived on topic: %s" CR), topic);
-  Log.notice(F("Message Content:"));
-
   String messageTemp;
 
   for (int i = 0; i < length; i++)
   {
-    Serial.print((char)message[i]);
     messageTemp += (char)message[i];
   }
 
-  Serial.println(messageTemp);
+  Log.notice(F("Message arrived on topic: %s" CR), topic);
+  Log.notice(F("Message Content: %s" CR), messageTemp.c_str());
 
   // If a message is received on the topic esp32/command (es. Relay off or on).
   // Changes the output state according to the message
   if ((String)topic == (String)topic_command)
   {
-    if (messageTemp == RELAY_00_COMMAND_ON)
-    {
-      digitalWrite(Relay_00_Pin, LOW);
-      update_relay_status(Relay_00, relay_status_on);
+    int indexOfCommandSeparator = messageTemp.indexOf(":");
 
-      Log.notice(F("Switch On relay 0" CR));
-    }
-    else if (messageTemp == RELAY_00_COMMAND_OFF)
-    {
-      digitalWrite(Relay_00_Pin, HIGH);
-      update_relay_status(Relay_00, relay_status_off);
+    String deviceName = messageTemp.substring(0, indexOfCommandSeparator);
+    String statement = messageTemp.substring(indexOfCommandSeparator + 1,
+                                             messageTemp.length());
 
-      Log.notice(F("Switch Off relay 0" CR));
-    }
-    else if (messageTemp == RELAY_01_COMMAND_ON)
+    if (!deviceName.isEmpty() && !statement.isEmpty() &&
+        (String)device_name == deviceName)
     {
-      digitalWrite(Relay_01_Pin, LOW);
-      update_relay_status(Relay_01, relay_status_on);
+      Log.notice(F("Try to execute this statement: %s for device name: %s" CR),
+                 statement.c_str(), deviceName.c_str());
 
-      Log.notice(F("Switch On relay 1" CR));
-    }
-    else if (messageTemp == RELAY_01_COMMAND_OFF)
-    {
-      digitalWrite(Relay_01_Pin, HIGH);
-      update_relay_status(Relay_01, relay_status_off);
+      if (statement == RELAY_00_COMMAND_ON)
+      {
+        digitalWrite(Relay_00_Pin, LOW);
+        update_relay_status(Relay_00, relay_status_on);
 
-      Log.notice(F("Switch Off relay 1" CR));
-    }
-    else if (messageTemp == RELAY_02_COMMAND_ON)
-    {
-      digitalWrite(Relay_02_Pin, LOW);
-      update_relay_status(Relay_02, relay_status_on);
+        Log.notice(F("Switch On relay 0" CR));
+      }
+      else if (statement == RELAY_00_COMMAND_OFF)
+      {
+        digitalWrite(Relay_00_Pin, HIGH);
+        update_relay_status(Relay_00, relay_status_off);
 
-      Log.notice(F("Switch On relay 2" CR));
-    }
-    else if (messageTemp == RELAY_02_COMMAND_OFF)
-    {
-      digitalWrite(Relay_02_Pin, HIGH);
-      update_relay_status(Relay_02, relay_status_off);
+        Log.notice(F("Switch Off relay 0" CR));
+      }
+      else if (statement == RELAY_01_COMMAND_ON)
+      {
+        digitalWrite(Relay_01_Pin, LOW);
+        update_relay_status(Relay_01, relay_status_on);
 
-      Log.notice(F("Switch Off relay 2" CR));
-    }
-    else if (messageTemp == RELAY_03_COMMAND_ON)
-    {
-      digitalWrite(Relay_03_Pin, LOW);
-      update_relay_status(Relay_03, relay_status_on);
+        Log.notice(F("Switch On relay 1" CR));
+      }
+      else if (statement == RELAY_01_COMMAND_OFF)
+      {
+        digitalWrite(Relay_01_Pin, HIGH);
+        update_relay_status(Relay_01, relay_status_off);
 
-      Log.notice(F("Switch On relay 3" CR));
-    }
-    else if (messageTemp == RELAY_03_COMMAND_OFF)
-    {
-      digitalWrite(Relay_03_Pin, HIGH);
-      update_relay_status(Relay_03, relay_status_off);
+        Log.notice(F("Switch Off relay 1" CR));
+      }
+      else if (statement == RELAY_02_COMMAND_ON)
+      {
+        digitalWrite(Relay_02_Pin, LOW);
+        update_relay_status(Relay_02, relay_status_on);
 
-      Log.notice(F("Switch Off relay 3" CR));
-    }
-    else
-    {
-      Log.warning(F("No command recognized" CR));
+        Log.notice(F("Switch On relay 2" CR));
+      }
+      else if (statement == RELAY_02_COMMAND_OFF)
+      {
+        digitalWrite(Relay_02_Pin, HIGH);
+        update_relay_status(Relay_02, relay_status_off);
+
+        Log.notice(F("Switch Off relay 2" CR));
+      }
+      else if (statement == RELAY_03_COMMAND_ON)
+      {
+        digitalWrite(Relay_03_Pin, LOW);
+        update_relay_status(Relay_03, relay_status_on);
+
+        Log.notice(F("Switch On relay 3" CR));
+      }
+      else if (statement == RELAY_03_COMMAND_OFF)
+      {
+        digitalWrite(Relay_03_Pin, HIGH);
+        update_relay_status(Relay_03, relay_status_off);
+
+        Log.notice(F("Switch Off relay 3" CR));
+      }
+      else
+      {
+        Log.warning(F("No command recognized" CR));
+      }
     }
   }
 }
@@ -246,6 +256,7 @@ void update_relay_status(int relayId, const char *status)
   // Use arduinojson.org/v6/assistant to compute the capacity.
   StaticJsonDocument<200> relayStatus;
 
+  relayStatus["clientId"] = clientId;
   relayStatus["deviceName"] = device_name;
   relayStatus["time"] = timeClient.getEpochTime();
   relayStatus["relayId"] = relayId;
@@ -317,7 +328,8 @@ void setup()
 void setup_wifi()
 {
   // We start by connecting to a WiFi network
-  Log.notice(F("Connecting to WiFi network: %s (password: %s)" CR), ssid, password);
+  Log.notice(F("Connecting to WiFi network: %s (password: %s)" CR),
+             ssid, password);
 
   WiFi.begin(ssid, password);
   WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);

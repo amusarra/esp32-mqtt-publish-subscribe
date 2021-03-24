@@ -288,6 +288,21 @@ void callback(char *topic, byte *message, unsigned int length)
 }
 
 /**
+ * Return the relays status
+ */
+int * get_relays_status()
+{
+  static int relaysStatus[4];
+
+  digitalRead(Relay_00_Pin) == LOW ? relaysStatus[0] = HIGH : relaysStatus[0] = LOW;
+  digitalRead(Relay_01_Pin) == LOW ? relaysStatus[1] = HIGH : relaysStatus[1] = LOW;
+  digitalRead(Relay_02_Pin) == LOW ? relaysStatus[2] = HIGH : relaysStatus[2] = LOW;
+  digitalRead(Relay_03_Pin) == LOW ? relaysStatus[3] = HIGH : relaysStatus[3] = LOW;
+
+  return relaysStatus;
+}
+
+/**
  * Update Relay status on the topic
  * 
  * relayId: Identifiier of the relay
@@ -474,7 +489,7 @@ void loop()
     // Inside the brackets, 200 is the RAM allocated to this document.
     // Don't forget to change this value to match your requirement.
     // Use arduinojson.org/v6/assistant to compute the capacity.
-    StaticJsonDocument<200> telemetry;
+    StaticJsonDocument<256> telemetry;
 
     /**
      * Reading humidity, temperature and pressure
@@ -496,7 +511,16 @@ void loop()
     telemetry["interval"] = interval;
     telemetry["counter"] = ++counter;
 
-    char telemetryAsJson[200];
+    JsonArray relaysStatusJsonArray = telemetry.createNestedArray("relaysStatus");
+
+    int * relaysStatus = get_relays_status();
+
+    for (int i = 0; i <= 3; i++)
+    {
+        relaysStatusJsonArray.add(relaysStatus[i]);
+    }
+    
+    char telemetryAsJson[256];
     serializeJson(telemetry, telemetryAsJson);
 
     client.publish(topic_telemetry_data, telemetryAsJson);

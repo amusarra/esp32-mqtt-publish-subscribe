@@ -352,10 +352,15 @@ void setup()
   // Initialize with log level and log output.
   Log.begin(LOG_LEVEL_VERBOSE, &Serial);
 
+  // Log ESP Chip information
+  Log.notice(F("ESP32 Chip model %s Rev %d" CR), ESP.getChipModel(),
+             ESP.getChipRevision());
+  Log.notice(F("This chip has %d cores" CR), ESP.getChipCores());
+  
   // Start I2C communication
   if (!bme.begin(0x76))
   {
-    Serial.println("Could not find a BME280 sensor, check wiring!");
+    Log.notice("Could not find a BME280 sensor, check wiring!");
     while (1)
       ;
   }

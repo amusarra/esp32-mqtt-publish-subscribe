@@ -115,8 +115,8 @@ const char *topic_command = "esp32/command";
 String clientId = "esp32-client-";
 
 // Defined the value for the status of the relay (active 1, 0 otherwise)
-const char *relay_status_on = "1";
-const char *relay_status_off = "0";
+const int relay_status_on = 1;
+const int relay_status_off = 0;
 
 // BME280
 Adafruit_BME280 bme;
@@ -134,7 +134,7 @@ long lastMessage = 0;
 // Declare the custom functions
 void callback(char *topic, byte *message, unsigned int length);
 void setup_wifi();
-void update_relay_status(int relayId, const char *status);
+void update_relay_status(int relayId, const int status);
 
 // Init WiFi/WiFiUDP, NTP and MQTT Client
 WiFiUDP ntpUDP;
@@ -308,7 +308,7 @@ int * get_relays_status()
  * relayId: Identifiier of the relay
  * status: Status of the relay. (o or 1)
  */
-void update_relay_status(int relayId, const char *status)
+void update_relay_status(int relayId, const int status)
 {
   // Allocate the JSON document
   // Inside the brackets, 200 is the RAM allocated to this document.

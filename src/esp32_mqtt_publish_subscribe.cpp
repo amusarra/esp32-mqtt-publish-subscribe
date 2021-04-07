@@ -356,7 +356,7 @@ void setup()
   Log.notice(F("ESP32 Chip model %s Rev %d" CR), ESP.getChipModel(),
              ESP.getChipRevision());
   Log.notice(F("This chip has %d cores" CR), ESP.getChipCores());
-  
+
   // Start I2C communication
   if (!bme.begin(0x76))
   {
@@ -449,7 +449,7 @@ void reconnect()
       Log.notice(F("Connected as clientId %s :-)" CR), clientId.c_str());
 
       // Subscribe
-      client.subscribe(topic_command);
+      client.subscribe(topic_command, 1);
       Log.notice(F("Subscribe to the topic command %s " CR), topic_command);
 
       // Init Status topic for Relay

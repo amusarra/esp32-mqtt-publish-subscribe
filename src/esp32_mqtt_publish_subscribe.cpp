@@ -67,6 +67,8 @@ const char *mqtt_password = STR(MQTT_PASSWORD);
 const char *device_name = STR(DEVICE_NAME);
 #endif
 
+#define ONBOARD_LED 2
+
 // Relay pre-defined command
 #define RELAY_COMMAND_ON "on"
 #define RELAY_COMMAND_OFF "off"
@@ -349,6 +351,9 @@ void setup()
 {
   Serial.begin(115200);
 
+  // Setup PIN Mode for On board led
+  pinMode(ONBOARD_LED, OUTPUT);
+
   // Initialize with log level and log output.
   Log.begin(LOG_LEVEL_VERBOSE, &Serial);
 
@@ -431,6 +436,9 @@ void setup_wifi()
   }
 
   Log.notice(F("Ping OK to %s" CR), mqtt_server);
+
+  // When setup wifi ok turn on led board
+  digitalWrite(ONBOARD_LED, HIGH);
 }
 
 /**
@@ -457,11 +465,15 @@ void reconnect()
       update_relay_status(Relay_01, relay_status_off);
       update_relay_status(Relay_02, relay_status_off);
       update_relay_status(Relay_03, relay_status_off);
+
+      // Turn on led board
+      digitalWrite(ONBOARD_LED, HIGH);
     }
     else
     {
       Log.error(F("{failed, rc=%d try again in 5 seconds}" CR), client.state());
-      // Wait 5 seconds before retrying
+      // Turn off led board and wait 5 seconds before retrying
+      digitalWrite(ONBOARD_LED, LOW);
       delay(5000);
     }
   }

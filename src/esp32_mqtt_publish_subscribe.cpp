@@ -126,10 +126,11 @@ Adafruit_BME280 bme;
 // Initi variables for values from sensor BME280
 float temperature = 0;
 float humidity = 0;
-int pressure = 0;
+float pressure = 0;
+float altitude = 0;
 
-// Interval in ms of the reads
-int counter = 0;
+    // Interval in ms of the reads
+    int counter = 0;
 long interval = 5000;
 long lastMessage = 0;
 
@@ -519,12 +520,23 @@ void loop()
     humidity = bme.readHumidity();
     pressure = bme.readPressure();
 
+    /**
+     * It's also possible to turn the BME280 into an altimeter. If you know 
+     * the pressure at sea level, the library can calculate the current 
+     * barometric pressure into altitude. 
+     * 
+     * The value 1013250 hPa is the Sea level standard atmospheric pressure.
+     * The altitude value returned is to be considered approximate.
+     */
+    altitude = bme.readAltitude(1013.25);
+
     telemetry["clientId"] = clientId.c_str();
     telemetry["deviceName"] = device_name;
     telemetry["time"] = timeClient.getEpochTime();
     telemetry["temperature"] = temperature;
     telemetry["humidity"] = humidity;
     telemetry["pressure"] = pressure;
+    telemetry["altitude"] = altitude;
     telemetry["interval"] = interval;
     telemetry["counter"] = ++counter;
 

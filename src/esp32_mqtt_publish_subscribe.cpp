@@ -129,8 +129,8 @@ float humidity = 0;
 float pressure = 0;
 float altitude = 0;
 
-    // Interval in ms of the reads
-    int counter = 0;
+// Interval in ms of the reads
+int counter = 0;
 long interval = 5000;
 long lastMessage = 0;
 

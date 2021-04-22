@@ -1,5 +1,9 @@
 # ESP32 MQTT Publish/Subscribe
 
+[![Antonio Musarra's Blog](https://img.shields.io/badge/maintainer-Antonio_Musarra's_Blog-purple.svg?colorB=6e60cc)](https://www.dontesta.it)
+[![Twitter Follow](https://img.shields.io/twitter/follow/antonio_musarra.svg?style=social&label=%40antonio_musarra%20on%20Twitter&style=plastic)](https://twitter.com/antonio_musarra)
+[![PlatformIO CI](https://github.com/amusarra/esp32-mqtt-publish-subscribe/actions/workflows/main.yml/badge.svg)](https://github.com/amusarra/esp32-mqtt-publish-subscribe/actions/workflows/main.yml)
+
 This project refers to the article [Un trittico vincente: ESP32, Raspberry Pi e EMQ X Edge published](https://bit.ly/3a3t7xq)
 on Antonio Musarra's Blog
 
@@ -8,7 +12,7 @@ are part of the IoT solution described by the article mentioned above.
 
 It's easy to understand how things work with a simple diagram, and the one below 
 shows two devices (ESP32), a dashboard and a mobile phone. In this case and in 
-the context of the Publish / Subscribe pattern, these components take on the role 
+the context of the Publish/Subscribe pattern, these components take on the role 
 of both publisher and subscriber, and the broker is the message dispatcher.
 
 The Dashboard and the Mobile Phone indicate to the broker that they want to 
@@ -78,7 +82,7 @@ The minimum version of PlatformIO Core to install is version 5.x. If you have al
 Now that we have chosen PlatformIO as a software development support tool, we can move on to analyze the developed code.
 
 ## 2. Writing the software for the ESP32
-The main responsibilities for the software to be created for the ESP32 are: the reading of environmental data and the subsequent publication on the topic esp32 / telemetry_data through the Message Broker, as well as receiving the commands from the topic esp32 / command and the subsequent execution of the same. The macro responsibilities are indicated below.
+The main responsibilities for the software to be created for the ESP32 are: the reading of environmental data and the subsequent publication on the topic esp32/telemetry_data through the Message Broker, as well as receiving the commands from the topic esp32/command and the subsequent execution of the same. The macro responsibilities are indicated below.
 
 1. I2C setup for the GY-BME280 sensor
 
@@ -98,21 +102,21 @@ The main responsibilities for the software to be created for the ESP32 are: the 
 
 9. Publication of the relay status via MQTT
 
-10. Reading and execution of commands arriving on the topic esp32 / command
+10. Reading and execution of commands arriving on the topic esp32/command
 
 
 
 The basic functions of the [esp32_mqtt_publish_subscribe.cpp](https://github.com/amusarra/esp32-mqtt-publish-subscribe/blob/master/src/esp32_mqtt_publish_subscribe.cpp) program are:
 
-1. **void setup_wifi ()** : the responsibility of this function is to establish the connection to the WiFi network. The connection parameters (SSID and username) can be set during the build phase; later we will see how. The WiFi network to which we must connect the devices must guarantee connectivity to the Message Broker;
-2. **void reconnect ()** : the responsibility of this function is to establish the connection to the Message Broker and manage any reconnections, for example in cases where the connection to the WiFi network fails. Immediately after the connection to the Message Broker, the topic is subscribed to esp32 / command with QoS equal to one and the initialization of the relay status to off;
-3. **void update_relay_status (int relayId, const int status)** : the responsibility of this function is to update the status of the relays by publishing messages on the related topics esp32 / releay _ $ {id} _status;
-4. **int \* get_relays_status ()** : the responsibility of this function is to return an array of four elements containing the status of the relays whose values can be: 0 for off and 1 for on;
-5. **void callback ( char \* topic, byte \* message, unsigned int length)** : this is the callback function called whenever a message is received on the topic for which you have an active subscription and in this case the topic for which there is a active subscription is esp32 / command. The responsibility of this function is to acquire the messages arriving on the esp32 / command topic, parse the received command and perform the corresponding action which can be: activate / deactivate the relay or publish the relay status.
+1. **void setup_wifi()** : the responsibility of this function is to establish the connection to the WiFi network. The connection parameters (SSID and username) can be set during the build phase; later we will see how. The WiFi network to which we must connect the devices must guarantee connectivity to the Message Broker;
+2. **void reconnect()** : the responsibility of this function is to establish the connection to the Message Broker and manage any reconnections, for example in cases where the connection to the WiFi network fails. Immediately after the connection to the Message Broker, the topic is subscribed to esp32/command with QoS equal to one and the initialization of the relay status to off;
+3. **void update_relay_status(int relayId, const int status)** : the responsibility of this function is to update the status of the relays by publishing messages on the related topics esp32/releay _ $ {id} _status;
+4. **int \* get_relays_status()** : the responsibility of this function is to return an array of four elements containing the status of the relays whose values can be: 0 for off and 1 for on;
+5. **void callback(char \* topic, byte \* message, unsigned int length)** : this is the callback function called whenever a message is received on the topic for which you have an active subscription and in this case the topic for which there is a active subscription is esp32/command. The responsibility of this function is to acquire the messages arriving on the esp32/command topic, parse the received command and perform the corresponding action which can be: activate/deactivate the relay or publish the relay status.
 
 
 
-By adopting the Arduino framework, we also carry the mandatory [**setup ()**](https://www.arduino.cc/reference/en/language/structure/sketch/setup/) and [**loop () functions**](https://www.arduino.cc/reference/en/language/structure/sketch/loop/) . The setup () function is executed only once, at start-up, and the body of this function foresees:
+By adopting the Arduino framework, we also carry the mandatory [**setup()**](https://www.arduino.cc/reference/en/language/structure/sketch/setup/) and [**loop() functions**](https://www.arduino.cc/reference/en/language/structure/sketch/loop/) . The setup() function is executed only once, at start-up, and the body of this function foresees:
 
 1. initialization of the [serial communication interface](https://www.arduino.cc/reference/en/language/functions/communication/serial/) ;
 2. initialization of the logging framework;
@@ -120,16 +124,16 @@ By adopting the Arduino framework, we also carry the mandatory [**setup ()**](ht
 4. initialization of the *clientId* variable used to identify the device as a client in the MQTT connection to the Message Broker;
 5. initialization of the connection to the WiFi network;
 6. [pin mode](https://www.arduino.cc/reference/en/language/functions/digital-io/pinmode/) initialization for relays (or actuators);
-7. initialization of the state of the relays (via [digitalWrite ()](https://www.arduino.cc/reference/en/language/functions/digital-io/digitalwrite/) bringing them all four to the deactivated state;
+7. initialization of the state of the relays (via [digitalWrite()](https://www.arduino.cc/reference/en/language/functions/digital-io/digitalwrite/) bringing them all four to the deactivated state;
 8. initialization of the NTP Client (with UTC timezone).
 
-The loop () function is instead executed in "continuation" and the body of this function provides:
+The loop() function is instead executed in "continuation" and the body of this function provides:
 
 1. time client update via NTP;
 2. control of the connection to the Message Broker and possible recession;
-3. calling the *loop ()* method on the MQTT client to allow processing of incoming messages and maintain connection to the server;
+3. calling the *loop()* method on the MQTT client to allow processing of incoming messages and maintain connection to the server;
 4. preparation of the message in JSON format that contains the environmental data coming from the BME280 sensor;
-5. publication of environmental data on the topic esp32 / telemety_data;
+5. publication of environmental data on the topic esp32/telemety_data;
 6. sending of the published JSON message on the serial line (for debugging purposes)
 
 ## 3. Compilation of the project
@@ -148,7 +152,7 @@ Below are the commands necessary to complete the compilation of the project and 
 
 During the build process, PlatformIO also downloads the libraries on which the project depends and which are indicated in the [**lib_deps**](https://github.com/amusarra/esp32-mqtt-publish-subscribe/blob/master/platformio.ini%23L33) section of the platformio.ini file (see also Table 5).
 
-The [Compiling the ESP32 MQTT Publish / Subscribe project with PlatformIO](https://asciinema.org/a/406054?autoplay%3D1) screencast is shown below so that you can see exactly the execution of the steps indicated above.
+The [Compiling the ESP32 MQTT Publish/Subscribe project with PlatformIO](https://asciinema.org/a/406054?autoplay%3D1) screencast is shown below so that you can see exactly the execution of the steps indicated above.
 
 ## 4. Upload of the software on the ESP32 device
 
@@ -156,7 +160,7 @@ We have reached the final step for what concerns the ESP32 devices, that is, the
 
 In reality it is also possible to skip the project compilation process, the upload process, if necessary, will start the compilation of the code and then continue with the upload on the ESP32.
 
-The [Upload software to ESP32 Device via PlatformIO](https://asciinema.org/a/406685?autoplay%3D1) screencast is shown [below](https://asciinema.org/a/406685?autoplay%3D1) so that you can see exactly the execution of the .pio / build / esp32dev / firmware.bin firmware upload phase on the ESP32 device.
+The [Upload software to ESP32 Device via PlatformIO](https://asciinema.org/a/406685?autoplay%3D1) screencast is shown [below](https://asciinema.org/a/406685?autoplay%3D1) so that you can see exactly the execution of the .pio/build/esp32dev/firmware.bin firmware upload phase on the ESP32 device.
 
 
 
@@ -165,7 +169,7 @@ On the image below it is possible to see the status of the LEDs after uploading 
 1. the connection to the WiFi network was successful;
 2. the ping to the Message Broker was successful;
 3. the connection to the EMQ X Edge Message Broker went well;
-4. the subscription to the topic esp32 / command was successful.
+4. the subscription to the topic esp32/command was successful.
 
 
 
@@ -175,9 +179,9 @@ On the image below it is possible to see the status of the LEDs after uploading 
 
 
 
-Ultimately this led ( [attested on GPIO 2](https://github.com/amusarra/esp32-mqtt-publish-subscribe/blob/master/src/esp32_mqtt_publish_subscribe.cpp%23L70) ) gives us indications if everything is going the right way. In this case we are lucky, the led is on and we are therefore sure that the environmental data are published on the topic esp32 / telemetry_data and that the device is ready to receive commands on the topic esp32 / command. If we wanted to check the activity of the device, we could connect to the serial monitor always using PlatformIO, using the command: `pio device monitor --environment esp32dev`
+Ultimately this led ( [attested on GPIO 2](https://github.com/amusarra/esp32-mqtt-publish-subscribe/blob/master/src/esp32_mqtt_publish_subscribe.cpp%23L70) ) gives us indications if everything is going the right way. In this case we are lucky, the led is on and we are therefore sure that the environmental data are published on the topic esp32/telemetry_data and that the device is ready to receive commands on the topic esp32/command. If we wanted to check the activity of the device, we could connect to the serial monitor always using PlatformIO, using the command: `pio device monitor --environment esp32dev`
 
-The following image shows the output of the above command. As you can see, we get several information in the output. Information on the chip model, information on the WiFi network to which the device is connected, information on the Message Broker to which the device is connected and finally the JSON published on the topic esp32 / telemetry_data.
+The following image shows the output of the above command. As you can see, we get several information in the output. Information on the chip model, information on the WiFi network to which the device is connected, information on the Message Broker to which the device is connected and finally the JSON published on the topic esp32/telemetry_data.
 
 
 

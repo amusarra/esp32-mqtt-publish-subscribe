@@ -1,0 +1,11 @@
+=== Schema elettrico della soluzione IoT
+
+Per implementare questa soluzione dal punto di vista hardware, dobbiamo sapere come realizzare i collegamenti tra i pezzi di "ferro" affinché il tutto possa funzionare nel modo corretto. Lo schema elettrico riporta i collegamenti che riguardano il device, quindi il sensore BME 280 e il modulo relè alla scheda di sviluppo https://amzn.to/31iG5lY[ESP32 DOIT DEV KIT] (da 30 pin). Lo schema riporta inoltre il collegamento del Gateway con un display https://amzn.to/3lUHJ6N[LCD 16x2], inserito con lo scopo di mostrare i dati ambientali e lo stato dei relè, informazioni la cui sorgente è rappresentata da ogni device.
+
+image::Schematic_ESP32_MQTT_Publish_Subscribe.png[title="Figura 8 - Schema elettrico dei componenti hardware che costituiscono la soluzione IoT"]
+
+La scheda di sviluppo dell'ESP32 è dotata di una porta Micro-USB per l'alimentazione del modulo stesso e l'upload del firmware. Questa scheda di sviluppo supporta l'upload automatico, non sarà quindi necessario cambiare manualmente il modo di upload e di esecuzione nel momento in cui sia necessario caricare il nuovo software.
+
+Quello che vedete a seguire è lo schema di dettaglio del https://en.wikipedia.org/wiki/Pinout[PINOUT] della scheda di sviluppo utilizzata per questo progetto. Questo schema è stato realizzato da https://www.linkedin.com/in/renzo-mischianti/[Renzo Mischianti] e pubblicato sul suo https://www.mischianti.org/[blog] e credo che sia uno dei migliori che possiamo trovare in giro per la rete.
+
+image::ESP32-DOIT-DEV-KIT-v1-pinout-mischianti.png[title="Figura 9 - PINOUT del modulo di sviluppo ESP32 Dev Kit V1 30 pin"]

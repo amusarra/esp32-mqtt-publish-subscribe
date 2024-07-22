@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1111.87999956" height="690.6664940000001" font-family="Consolas, Menlo, 'Bitstream Vera Sans Mono', monospace, 'Powerline Symbols'" font-size="14px">
+  <style>
+    .br { font-weight: bold }
+    .fa { fill-opacity: 0.5 }
+    .it { font-style: italic }
+    .un { text-decoration: underline }
+  </style>
+
+  <rect width="100%" height="100%" style="fill: #121314" rx="4" ry="4"></rect>
+
+  <svg x="8.42333333" y="9.333331000000001" class="default-text-fill">
+    <g style="shape-rendering: optimizeSpeed">
+
+        <rect x="623.32666642" y="18.666662000000002" width="16.84666666" height="18.666662000000002" style="fill: #000000"></rect><rect x="640.17333308" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #000000"></rect><rect x="648.59666641" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #000000"></rect><rect x="657.01999974" y="18.666662000000002" width="84.2333333" height="18.666662000000002" style="fill: #d9d9d9"></rect><rect x="741.25333304" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #d9d9d9"></rect><rect x="749.67666637" y="18.666662000000002" width="84.2333333" height="18.666662000000002" style="fill: #ddaf3c"></rect><rect x="833.90999967" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #ddaf3c"></rect><rect x="842.333333" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #ddaf3c"></rect><rect x="850.75666633" y="18.666662000000002" width="75.80999997" height="18.666662000000002" style="fill: #dd3c69"></rect><rect x="926.5666663000001" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #dd3c69"></rect><rect x="934.98999963" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #dd3c69"></rect><rect x="943.41333296" y="18.666662000000002" width="58.96333331" height="18.666662000000002" style="fill: #ddaf3c"></rect><rect x="1002.37666627" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #ddaf3c"></rect><rect x="1010.7999996" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #ddaf3c"></rect><rect x="1019.22333293" y="18.666662000000002" width="58.96333331" height="18.666662000000002" style="fill: #000000"></rect><rect x="1078.18666624" y="18.666662000000002" width="16.84666666" height="18.666662000000002" style="fill: #000000"></rect>
+
+        <rect x="0.0" y="279.99993" width="8.42333333" height="18.666662000000002" style="fill: #d9d9d9"></rect>
+
+
+
+          <polygon points="623.32666642 18.666662000000002, 614.90333309 27.999993000000003, 623.32666642 37.333324000000005" fill="#000000"></polygon>
+
+          <polygon points="657.01999974 18.666662000000002, 648.59666641 27.999993000000003, 657.01999974 37.333324000000005" fill="#d9d9d9"></polygon>
+
+          <polygon points="749.67666637 18.666662000000002, 741.25333304 27.999993000000003, 749.67666637 37.333324000000005" fill="#ddaf3c"></polygon>
+
+          <polygon points="850.75666633 18.666662000000002, 842.333333 27.999993000000003, 850.75666633 37.333324000000005" fill="#dd3c69"></polygon>
+
+          <polygon points="943.41333296 18.666662000000002, 934.98999963 27.999993000000003, 943.41333296 37.333324000000005" fill="#ddaf3c"></polygon>
+
+          <polygon points="1019.22333293 18.666662000000002, 1010.7999996 27.999993000000003, 1019.22333293 37.333324000000005" fill="#000000"></polygon>
+
+
+    </g>
+
+    <text style="fill: #cccccc">
+      <tspan y="0.0">
+        <tspan dy="1em" x="0.0">
+user: 
+        </tspan><tspan x="50.539999980000005" class="br" style="fill: #ffffff">
+antoniomusarra
+        </tspan><tspan x="176.88999993000002" class="br" style="fill: #54e1b9">
+~
+        </tspan>
+      </tspan><tspan y="18.666662000000002">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+❯
+        </tspan><tspan x="8.42333333" class="br" style="fill: #4d4d4d">
+# Export Environment Variables 
+        </tspan><tspan x="631.74999975" style="fill: #4ebf22">
+✔
+        </tspan><tspan x="665.44333307" style="fill: #000000">
+23:04:05 
+        </tspan><tspan x="758.0999997" style="fill: #000000">
+5.00G RAM
+        </tspan><tspan x="859.17999966" style="fill: #d9d9d9">
+99% hdd 
+        </tspan><tspan x="951.83666629" style="fill: #000000">
+2.66 L
+        </tspan><tspan x="1027.64666626" style="fill: #4ebf22">
+100% 🔋
+        </tspan>
+      </tspan><tspan y="37.333324000000005">
+        <tspan dy="1em" x="0.0" style="fill: #ddaf3c">
+export
+        </tspan><tspan x="58.96333331">
+WIFI_SSID=
+        </tspan><tspan x="143.19666661" style="fill: #ddaf3c">
+&quot;your-wifi-ssid&quot;
+        </tspan>
+      </tspan><tspan y="55.99998600000001">
+        <tspan dy="1em" x="0.0" style="fill: #ddaf3c">
+export
+        </tspan><tspan x="58.96333331">
+WIFI_PASSWORD=
+        </tspan><tspan x="176.88999993000002" style="fill: #ddaf3c">
+&quot;your-wifi-access-password&quot;
+        </tspan>
+      </tspan><tspan y="74.66664800000001">
+        <tspan dy="1em" x="0.0" style="fill: #ddaf3c">
+export
+        </tspan><tspan x="58.96333331">
+WIFI_USERNAME=
+        </tspan><tspan x="176.88999993000002" style="fill: #ddaf3c">
+&quot;your-wifi-username&quot;
+        </tspan>
+      </tspan><tspan y="111.99997200000001">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4d4d4d">
+# Username e password defined and created 
+        </tspan>
+      </tspan><tspan y="130.66663400000002">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4d4d4d">
+# in the previous step (EMQ X Edge Install) 
+        </tspan>
+      </tspan><tspan y="149.33329600000002">
+        <tspan dy="1em" x="0.0" style="fill: #ddaf3c">
+export
+        </tspan><tspan x="58.96333331">
+MQTT_USERNAME=
+        </tspan><tspan x="176.88999993000002" style="fill: #ddaf3c">
+&quot;esp32-device&quot;
+        </tspan>
+      </tspan><tspan y="167.99995800000002">
+        <tspan dy="1em" x="0.0" style="fill: #ddaf3c">
+export
+        </tspan><tspan x="58.96333331">
+MQTT_PASSWORD=
+        </tspan><tspan x="176.88999993000002" style="fill: #ddaf3c">
+&quot;esp32-device&quot;
+        </tspan>
+      </tspan><tspan y="186.66662000000002">
+        <tspan dy="1em" x="0.0" style="fill: #ddaf3c">
+export
+        </tspan><tspan x="58.96333331">
+MQTT_SERVER=
+        </tspan><tspan x="160.04333327" style="fill: #ddaf3c">
+&quot;your-ip-address-of-mqtt-broker&quot;
+        </tspan>
+      </tspan><tspan y="205.33328200000003">
+        <tspan dy="1em" x="0.0" style="fill: #ddaf3c">
+export
+        </tspan><tspan x="58.96333331">
+MQTT_PORT=
+        </tspan><tspan x="143.19666661" style="fill: #ddaf3c">
+&quot;1883&quot;
+        </tspan>
+      </tspan><tspan y="242.66660600000003">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4d4d4d">
+# Export Device Name 
+        </tspan>
+      </tspan><tspan y="261.33326800000003">
+        <tspan dy="1em" x="0.0" style="fill: #ddaf3c">
+export
+        </tspan><tspan x="58.96333331">
+DEVICE_NAME=
+        </tspan><tspan x="160.04333327" style="fill: #ddaf3c">
+&quot;esp32-zone-1&quot;
+        </tspan>
+      </tspan>
+    </text>
+  </svg>
+
+  <g transform="translate(-40 -40)">
+    <svg x="50%" y="50%" width="80" height="80">
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000.0 1000.0" style="filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.4))">
+  <defs>
+    <mask id="small-triangle-mask">
+      <rect width="100%" height="100%" fill="white"></rect>
+      <polygon points="700.0 500.0, 400.00000000000006 326.7949192431122, 399.9999999999999 673.2050807568877" fill="black">
+      </polygon>
+    </mask>
+  </defs>
+  <polygon points="1000.0 500.0, 250.0000000000001 66.98729810778059, 249.99999999999977 933.0127018922192" mask="url(#small-triangle-mask)" fill="white">
+  </polygon>
+  <polyline points="673.2050807568878 400.0, 326.7949192431123 600.0" stroke="white" stroke-width="90">
+  </polyline>
+</svg>
+    </svg>
+  </g>
+</svg>

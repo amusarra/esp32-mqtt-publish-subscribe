@@ -1,0 +1,129 @@
+=== Configurazione utenze e Access Control List (ACL)
+
+Una volta che l'istanza di EMQ X Edge è up, dobbiamo procedere con la configurazione delle utenze di accesso e delle *ACL*, quest'ultime definiscono le azioni che le utenze posso eseguire sui topic. Le azioni sui topic sono: pubblicazione e sottoscrizione. Per la configurazione delle utenze e ACL, è necessario abilitare il modulo https://docs.emqx.io/en/broker/v4.2/advanced/auth-mnesia.html[Mnesia] utilizzando il https://docs.emqx.io/en/broker/v4.2/advanced/cli.html[tool di amministrazione emqx_ctl].
+
+Per questa soluzione sono previste le utenze e ACL descritte a seguire e raggruppate nella tabella successiva.
+
+* L'utente *esp32-device* sarà l'utenza utilizzata dai dispositivi ESP32 (vedi schema elettrico di Figura 8) che dovrà essere capace di pubblicare i dati ambientali sul topic *esp32/telemetry_data* e pubblicare lo stato degli attuatori (i relè) sui topic *esp32/releay_$\{relay_id}_status*. L'utenza dovrà essere inoltre capace di sottoscriversi al topic *esp32/command*.
+* L'utente *gw-rpi4-device* sarà l'utenza utilizzata dal software residente e in esecuzione sul Raspberry Pi 4. Questo software sarà in particolare responsabile di visualizzare i dati ambientali sul display LCD collegato al Raspberry Pi e inviare i comandi ai device. L'utenza dovrà quindi essere capace di sottoscriversi ai topic esp32/telemetry_data e esp32/releay_$\{relay_id}_status e pubblicare sul
+topic esp32/command.
+* L'utente *mqtt-dashboard* sarà l'utenza utilizzata dal software che implementa la dashboard di visualizzazione dei dati ambientali e per inviare i comandi ai device. L'utenza dovrà quindi essere capace di sottoscriversi ai topic esp32/telemetry_data e esp32/releay_$\{relay_id}_status e pubblicare sul topic esp32/command.
+
+Il capitolo successivo scenderà nel dettaglio riguardo i topic di cui al momento sono stati indicati solo i nomi.
+
+<<<
+.Tabella 2 - Definizione delle utenze e ACL sui topic necessari per l'implementazione della soluzione IoT
+[width="100%",cols="<30%,<35%,<35%",]
+|===
+|*Utente* |*Topic* |*ACL*
+|esp32-device a|
+esp32/telemetry_data
+
+|pub=true, sub=false
+| a|
+esp32/relay_00_status
+
+|pub=true, sub=false
+| a|
+esp32/relay_01_status
+
+|pub=true, sub=false
+| a|
+esp32/relay_02_status
+
+|pub=true, sub=false
+| a|
+esp32/relay_03_status
+
+|pub=true, sub=false
+| a|
+esp32/command
+
+|pub=false, sub=true
+|gw-rpi4-device a|
+esp32/telemetry_data
+
+|pub=false, sub=true
+| a|
+esp32/relay_00_status
+
+|pub=false, sub=true
+| a|
+esp32/relay_01_status
+
+|pub=false, sub=true
+| a|
+esp32/relay_02_status
+
+|pub=false, sub=true
+| a|
+esp32/relay_03_status
+
+|pub=false, sub=true
+| a|
+esp32/command
+
+|pub=true, sub=false
+a|
+mqtt-dashboard
+a|
+esp32/telemetry_data
+
+|pub=false, sub=true
+| a|
+esp32/command
+
+|pub=true, sub=false
+| a|
+esp32/relay_00_status
+
+|pub=false, sub=true
+| a|
+esp32/relay_01_status
+
+|pub=false, sub=true
+| a|
+esp32/relay_02_status
+
+|pub=false, sub=true
+| a|
+esp32/relay_03_status
+
+|pub=false, sub=true
+|===
+
+I comandi a seguire devono essere lanciati direttamente dalla console del nostro Gateway o Raspberry Pi e sono necessari affinché siano aggiunti i tre utenti e le ACL descritti e indicati nella tabella precedente. Per aggiungere utenti e ACL utilizzeremo le API REST fornite da EMQ X Edge e richiamate utilizzando il tool *curl*. Sul repository GitHub Gist https://gist.github.com/amusarra/fa3294ff35c8794d2eb8a2b5792901df[EMQ X Edge 4.2.9 - Add User and ACL (emqx_auth_mnesia module)] sono disponibili i documenti JSON per l'inserimento degli utenti e ACL.
+
+È possibile ottenere lo stesso risultato utilizzando la CLI di EMQ X Edge che al momento però presenta qualche problema con la definizione delle ACL, ecco il motivo per cui sono stato costretto a "regredire" all'uso delle API REST.
+
+<<<
+[source,bash,title="Console 2 - Configurazione EMQ X Edge: creazione utenti e ACL"]
+----
+# Enable the Mnesia Module
+docker exec -it mqtt-broker /bin/bash ./bin/emqx_ctl plugins load emqx_auth_mnesia
+
+# Add users
+git clone https://gist.github.com/fa3294ff35c8794d2eb8a2b5792901df.git emqx-user-acl
+curl -u admin:public -H "Content-Type: application/json" -d @emqx-user-acl/add_users.json http://localhost:18083/api/v4/mqtt_user
+
+# Add ACL for User/Topic
+curl -u admin:public -H "Content-Type: application/json" -d @emqx-user-acl/acl_rules_user_esp32_device.json http://localhost:18083/api/v4/mqtt_acl
+
+curl -u admin:public -H "Content-Type: application/json" -d @emqx-user-acl/acl_rules_user_gw_rpi4_device.json http://localhost:18083/api/v4/mqtt_acl
+
+curl -u admin:public -H "Content-Type: application/json" -d @emqx-user-acl/acl_rules_user_mqtt_dashboard_device.json http://localhost:18083/api/v4/mqtt_acl
+
+# Restart EMQ X Edge container
+docker restart mqtt-broker
+
+# Check User ACL
+docker exec -it mqtt-broker /bin/bash ./bin/emqx_ctl mqtt-acl show esp32-device
+docker exec -it mqtt-broker /bin/bash ./bin/emqx_ctl mqtt-acl show gw-rpi4-device
+docker exec -it mqtt-broker /bin/bash ./bin/emqx_ctl mqtt-acl show mqtt-dashboard
+----
+
+A seguire è mostrato lo screencast di https://asciinema.org/a/405128?autoplay=1[How to add users and ACLs on EMQ X Edge using the Mnesia module] in modo che possiate vedere esattamente l'esecuzione degli step indicati in precedenza.
+
+image::405128.svg[title="Screencast 2 - How to add users and ACLs on EMQ X Edge using the Mnesia module",link="https://asciinema.org/a/405128?autoplay=1"]
+
+Molto bene. Il Message Broker MQTT è stato configurato per i nostri scopi ed è quindi pronto all'uso. Nel prossimo capitolo andremo a dettagliare il ruolo di ogni topic, il significato di *Quality of Service* (o QoS) nel contesto MQTT e per finire vedremo la struttura del payload, quest'ultimo è l'effettivo contenuto del messaggio che viene scambiato tra i vari attori.

@@ -1,0 +1,511 @@
+<<<
+== Scrittura del software per l'ESP32
+
+Le responsabilità maggiori per il software da realizzare per l'ESP32 sono: la lettura dei dati ambientali e la successiva pubblicazione sul topic esp32/telemetry_data attraverso il Message Broker, oltre a ricevere i comandi dal topic esp32/command e la successiva esecuzione degli stessi. Le macro responsabilità sono indicate a seguire.
+
+. Setup I2C per il sensore GY-BME280
+. Setup GPIO per i relè
+. Setup della connessione alla rete WiFi
+. Setup della connessione al Message Broker MQTT
+. Lettura dei dati ambientali dal sensore GY-BME280
+. Preparazione del messaggio con i dati ambientali in formato JSON
+. Preparazione del messaggio con i dati dello stato dei relè in formato JSON
+. Pubblicazione dei dati ambientali via MQTT
+. Pubblicazione dello stato dei relè via MQTT
+. Lettura ed esecuzione dei comandi che arrivano sul topic esp32/command
+
+Per comodità l'intero progetto è disponibile sul repository GitHub https://github.com/amusarra/esp32-mqtt-publish-subscribe[ESP32 MQTT Publish && Subscribe].
+
+<<<
+La tabella a seguire mostra le librerie che sono state usate per la realizzazione del software. Queste librerie sono specificate all'interno del file https://github.com/amusarra/esp32-mqtt-publish-subscribe/blob/master/platformio.ini#L33[platformio.ini], e queste saranno scaricate da PlatformIO qualora non già disponibili sul proprio ambiente di sviluppo.
+
+.Tabella 5 - Lista delle librerie utilizzate per la realizzazione del software da installare sui device (ESP32)
+[width="100%",cols="<25%,<15%,<30%,<30%",]
+|===
+|*Nome Libreria* |*Versione* |*Descrizione* |*Sito*
+
+a|
+Adafruit Unified Sensor
+
+|1.1.4 |Il driver Adafruit Unified Sensor cerca di armonizzare i dati
+del sensore in un unico "tipo", più leggero, e astrae anche i dettagli
+sul sensore.
+|https://learn.adafruit.com/using-the-adafruit-unified-sensor-driver/introduction
+
+|Adafruit BME280 |2.1.2 |Libreria per il sensore BME280
+|https://github.com/adafruit/Adafruit_BME280_Library
+
+|ArduinoJson |6.17.3 |Libreria per la manipolazione dei documenti JSON.
+|https://arduinojson.org/
+
+|ArduinoLog |1.0.3 |Libreria per il logging
+|https://www.arduino.cc/reference/en/libraries/arduinolog/
+
+|ESP32Ping |1.7 |Libreria per il Ping di macchine su rete TCP/IP
+|https://github.com/marian-craciunescu/ESP32Ping
+
+a|
+PubSubClient
+
+|2.8 |Libreria che fornisce un client per la
+pubblicazione/sottoscrizione di messaggi con un server che supporta
+MQTT. |https://github.com/knolleary/pubsubclient
+
+a|
+NTPClient
+
+|3.1.10 |Libreria che fornisce un semplice client per un server NTP.
+|https://github.com/arduino-libraries/NTPClient
+|===
+
+<<<
+Le funzioni fondamentali del programma https://github.com/amusarra/esp32-mqtt-publish-subscribe/blob/master/src/esp32_mqtt_publish_subscribe.cpp[esp32_mqtt_publish_subscribe.cpp] sono:
+
+. *void setup_wifi()*: la responsabilità di questa funzione è quella di instaurare la connessione alla rete WiFi. I parametri di connessione (SSID e username) possono essere impostati durante la fase di build; successivamente vedremo come. La rete WiFi a cui dobbiamo connettere i device deve garantire la connettività verso il Message Broker;
+. *void reconnect()*: la responsabilità di questa funzione è quella di instaurare la connessione al Message Broker e gestire eventuali ri-connessioni, per esempio nei casi in cui cada la connessione alla rete WiFi. Subito dopo la connessione al Message Broker è eseguita la sottoscrizione al topic esp32/command con QoS pari a uno e l'inizializzazione dello stato dei relè a off;
+. *void update_relay_status(int relayId, const int status)*: la responsabilità di questa funzione è quella di aggiornare lo stato dei relè pubblicando i messaggi sui relativi topic esp32/releay_$\{id}_status;
+. *[.pl-k]#int# * [.pl-en]#get_relays_status#()*: la responsabilità di questa funzione è quella di restituire un array di quattro elementi che contenente lo stato dei relè i cui valori possono essere: 0 per off e 1 per on;
+. *[.pl-k]#void# [.pl-en]#callback#([.pl-k]#char# *topic, byte *message, [.pl-k]#unsigned# [.pl-k]#int# length)*: questa è la funzione di callback richiamata ogni qualvolta viene ricevuto un messaggio sul topic per cui si ha una sottoscrizione attiva e in questo caso il topic per cui c'è una sottoscrizione attiva è esp32/command. La responsabilità di questa funzione è quella di acquisire i messaggi che arrivano sul topic esp32/command, fare il parsing del comando ricevuto ed eseguire l'azione corrispondente che può essere: attivare/disattivare il relè o pubblicare lo stato del relè.
+
+Adottando il framework Arduino, portiamo dietro anche le funzioni obbligatorie https://www.arduino.cc/reference/en/language/structure/sketch/setup/[*setup()*] e https://www.arduino.cc/reference/en/language/structure/sketch/loop/[*loop()*]. La funzione setup() è eseguita una sola volta, allo star-up, e il body di questa funzione prevede:
+
+. inizializzazione dell'interfaccia di https://www.arduino.cc/reference/en/language/functions/communication/serial/[comunicazione seriale];
+. inizializzazione del framework di logging;
+. inizializzazione e check del canale I2C per il sensore BME280;
+. inizializzazione della variabile __clientId__ utilizzata per identificare il device come client nella connessione MQTT verso il Message Broker;
+. inizializzazione della connessione alla rete WiFi;
+. inizializzazione dei https://www.arduino.cc/reference/en/language/functions/digital-io/pinmode/[pin mode] per i relè (o attuatori);
+. inizializzazione dello stato dei relè (via https://www.arduino.cc/reference/en/language/functions/digital-io/digitalwrite/[digitalWrite()]) portandoli tutti e quattro allo stato disattivato;
+. inizializzazione dell'NTP Client (con timezone UTC).
+
+<<<
+La funzione loop() è invece eseguita in "continuazione" e il body di questa funzione prevede:
+
+. l'aggiornamento del time client via NTP;
+. il controllo della connessione al Message Broker ed eventuale ri-connessione;
+. chiamata del metodo _loop()_ sul client MQTT per consentire l'elaborazione dei messaggi in arrivo e mantenere la connessione al server;
+. preparazione del messaggio in formato JSON che contiene i dati ambientali provenienti dal sensore BME280;
+. pubblicazione dei dati ambientali sul topic esp32/telemety_data;
+. invio sulla seriale del messaggio JSON pubblicato (per scopi di debug)
+
+Il codice riportato è commentato nella parti salienti e non credo sia necessario commentare qui ogni linea di codice. A seguire è mostrato il codice sorgente di ogni funzione fondamentale descritta in precedenza.
+
+<<<
+[source,c,title="Source Code 1 - Setup the WiFi Connection"]
+----
+/**
+ * Setup the WiFi Connection
+ */
+void setup_wifi()
+{
+  // We start by connecting to a WiFi network
+  Log.notice(F("Connecting to WiFi network: %s (password: %s)" CR),
+             ssid, password);
+
+  WiFi.begin(ssid, password);
+  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
+  WiFi.setHostname(clientId.c_str());
+
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("");
+
+  Serial.println("WiFi connected :-)");
+  Serial.print("IP Address: ");
+  Serial.print(WiFi.localIP());
+  Serial.println("");
+  Serial.print("Mac Address: ");
+  Serial.print(WiFi.macAddress());
+  Serial.println("");
+  Serial.print("Hostname: ");
+  Serial.print(WiFi.getHostname());
+  Serial.println("");
+  Serial.print("Gateway: ");
+  Serial.print(WiFi.gatewayIP());
+  Serial.println("");
+
+  bool success = Ping.ping(mqtt_server, 3);
+
+  if (!success)
+  {
+    Log.error(F("Ping failed to %s" CR), mqtt_server);
+    return;
+  }
+
+  Log.notice(F("Ping OK to %s" CR), mqtt_server);
+}
+----
+
+<<<
+[source,c,title="Source Code 2 - Reconnect to MQTT Broker"]
+----
+/**
+ * Reconnect to MQTT Broker
+ */
+void reconnect()
+{
+  // Loop until we're reconnected
+  while (!client.connected())
+  {
+    Log.notice(F("Attempting MQTT connection to %s" CR), mqtt_server);
+
+    // Attempt to connect
+    if (client.connect(clientId.c_str(), mqtt_username, mqtt_password))
+    {
+      Log.notice(F("Connected as clientId %s :-)" CR), clientId.c_str());
+
+      // Subscribe
+      client.subscribe(topic_command, 1);
+      Log.notice(F("Subscribe to the topic command %s " CR), topic_command);
+
+      // Init Status topic for Relay
+      update_relay_status(Relay_00, relay_status_off);
+      update_relay_status(Relay_01, relay_status_off);
+      update_relay_status(Relay_02, relay_status_off);
+      update_relay_status(Relay_03, relay_status_off);
+    }
+    else
+    {
+      Log.error(F("{failed, rc=%d try again in 5 seconds}" CR), client.state());
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }
+}
+----
+
+<<<
+[source,c,title="Source Code 3 - Update Relay status on the topic"]
+----
+/**
+ * Update Relay status on the topic
+ * 
+ * relayId: Identifiier of the relay
+ * status: Status of the relay. (o or 1)
+ */
+void update_relay_status(int relayId, const int status)
+{
+  // Allocate the JSON document
+  // Inside the brackets, 200 is the RAM allocated to this document.
+  // Don't forget to change this value to match your requirement.
+  // Use arduinojson.org/v6/assistant to compute the capacity.
+  StaticJsonDocument<200> relayStatus;
+
+  relayStatus["clientId"] = clientId;
+  relayStatus["deviceName"] = device_name;
+  relayStatus["time"] = timeClient.getEpochTime();
+  relayStatus["relayId"] = relayId;
+  relayStatus["status"] = status;
+
+  char relayStatusAsJson[200];
+  serializeJson(relayStatus, relayStatusAsJson);
+
+  switch (relayId)
+  {
+  case Relay_00:
+    client.publish(topic_relay_00_status, relayStatusAsJson);
+    break;
+  case Relay_01:
+    client.publish(topic_relay_01_status, relayStatusAsJson);
+    break;
+  case Relay_02:
+    client.publish(topic_relay_02_status, relayStatusAsJson);
+    break;
+  case Relay_03:
+    client.publish(topic_relay_03_status, relayStatusAsJson);
+    break;
+  }
+}
+----
+
+<<<
+[source,c,title="Source Code 4 - Return the relays status"]
+----
+/**
+ * Return the relays status
+ */
+int * get_relays_status()
+{
+  static int relaysStatus[4];
+
+  digitalRead(Relay_00_Pin) == LOW ? relaysStatus[0] = HIGH : relaysStatus[0] = LOW;
+  digitalRead(Relay_01_Pin) == LOW ? relaysStatus[1] = HIGH : relaysStatus[1] = LOW;
+  digitalRead(Relay_02_Pin) == LOW ? relaysStatus[2] = HIGH : relaysStatus[2] = LOW;
+  digitalRead(Relay_03_Pin) == LOW ? relaysStatus[3] = HIGH : relaysStatus[3] = LOW;
+
+  return relaysStatus;
+}
+----
+
+<<<
+[source,c,title="Source Code 5 - MQTT Callback"]
+----
+/**
+  * MQTT Callback
+  * 
+  * If a message is received on the topic esp32/command (es. Relay off or on).
+  * Format: {$device-name}:{relay;$relayId;$command}
+  * Es: 
+  *  esp32-zone-1:relay;3;off (switch off relay 3 of the specified device)
+  *  esp32-zone-1:relay;2;on (switch on relay 2 of the specified device)
+  *  esp32-zone-1:relay;3;status (get status of the relay 3 of the specified device) 
+  */
+void callback(char *topic, byte *message, unsigned int length)
+{
+  String messageTemp;
+
+  for (int i = 0; i < length; i++)
+  {
+    messageTemp += (char)message[i];
+  }
+
+  Log.notice(F("Message arrived on topic: %s" CR), topic);
+  Log.notice(F("Message Content: %s" CR), messageTemp.c_str());
+
+  if ((String)topic == (String)topic_command)
+  {
+
+    /**
+     * Parsing of the received command string. This piece of code 
+     * could be written using regular expressions.
+     * ([a-zA-Z,0-9,\-]{3,12}):(\w+);([0-3]);(off|on|status) this could be the 
+     * regular expression which should be sufficient to satisfy the given format.
+     */
+    int indexOfDeviceSeparator = messageTemp.indexOf(":");
+    
+    String deviceName = messageTemp.substring(0, indexOfDeviceSeparator);
+    String statement = messageTemp.substring(indexOfDeviceSeparator + 1,
+                                             messageTemp.length());
+
+    int indexOfStatementSeparator = statement.indexOf(";");
+    int relayId = statement.substring(indexOfStatementSeparator + 1,
+                                      indexOfStatementSeparator + 2)
+                      .toInt();
+    String command = statement.substring(statement.lastIndexOf(";") + 1,
+                                         statement.length());
+
+    if (!deviceName.isEmpty() && !statement.isEmpty() && !command.isEmpty() &&
+        (String)device_name == deviceName)
+    {
+      Log.notice(F("Try to execute this statement (command %s): %s for relay %d on the device name: %s" CR),
+                 command.c_str(), statement.c_str(), relayId, deviceName.c_str());
+
+      /**
+       * The following code block is responsible for executing the instructions 
+       * received from the command topic. This block of code is purely 
+       * educational and can be optimizing to avoid redundant code.
+       */
+      switch (relayId)
+      {
+      case Relay_00:
+        if (command == RELAY_COMMAND_ON)
+        {
+          digitalWrite(Relay_00_Pin, LOW);
+          update_relay_status(Relay_00, relay_status_on);
+
+          Log.notice(F("Switch On relay 0" CR));
+        }
+        else if (command == RELAY_COMMAND_OFF)
+        {
+          digitalWrite(Relay_00_Pin, HIGH);
+          update_relay_status(Relay_00, relay_status_off);
+
+          Log.notice(F("Switch Off relay 0" CR));
+        }
+        else if (command == RELAY_COMMAND_STATUS)
+        {
+          digitalRead(Relay_00_Pin) == LOW ? update_relay_status(Relay_00, relay_status_on) : update_relay_status(Relay_00, relay_status_off);
+        }
+        break;
+      case Relay_01:
+        if (command == RELAY_COMMAND_ON)
+        {
+          digitalWrite(Relay_01_Pin, LOW);
+          update_relay_status(Relay_01, relay_status_on);
+
+          Log.notice(F("Switch On relay 1" CR));
+        }
+        else if (command == RELAY_COMMAND_OFF)
+        {
+          digitalWrite(Relay_01_Pin, HIGH);
+          update_relay_status(Relay_01, relay_status_off);
+
+          Log.notice(F("Switch Off relay 1" CR));
+        }
+        else if (command == RELAY_COMMAND_STATUS)
+        {
+          digitalRead(Relay_01_Pin) == LOW ? update_relay_status(Relay_01, relay_status_on) : update_relay_status(Relay_01, relay_status_off);
+        }
+        break;
+      case Relay_02:
+        if (command == RELAY_COMMAND_ON)
+        {
+          digitalWrite(Relay_02_Pin, LOW);
+          update_relay_status(Relay_02, relay_status_on);
+
+          Log.notice(F("Switch On relay 2" CR));
+        }
+        else if (command == RELAY_COMMAND_OFF)
+        {
+          digitalWrite(Relay_02_Pin, HIGH);
+          update_relay_status(Relay_02, relay_status_off);
+
+          Log.notice(F("Switch Off relay 2" CR));
+        }
+        else if (command == RELAY_COMMAND_STATUS)
+        {
+          digitalRead(Relay_02_Pin) == LOW ? update_relay_status(Relay_02, relay_status_on) : update_relay_status(Relay_02, relay_status_off);
+        }
+        break;
+      case Relay_03:
+        if (command == RELAY_COMMAND_ON)
+        {
+          digitalWrite(Relay_03_Pin, LOW);
+          update_relay_status(Relay_03, relay_status_on);
+
+          Log.notice(F("Switch On relay 3" CR));
+        }
+        else if (command == RELAY_COMMAND_OFF)
+        {
+          digitalWrite(Relay_03_Pin, HIGH);
+          update_relay_status(Relay_03, relay_status_off);
+
+          Log.notice(F("Switch Off relay 3" CR));
+        }
+        else if (command == RELAY_COMMAND_STATUS)
+        {
+          digitalRead(Relay_03_Pin) == LOW ? update_relay_status(Relay_03, relay_status_on) : update_relay_status(Relay_03, relay_status_off);
+        }
+        break;
+      default:
+        Log.warning(F("No relayId recognized" CR));
+        break;
+      }
+    }
+  }
+}
+----
+
+A seguire è mostrato il codice sorgente delle funzioni setup() e loop() descritte in precedenza.
+
+[source,c,title="Source Code 6 - Setup e Loop"]
+----
+/**
+ * Setup lifecycle
+ */
+void setup()
+{
+  Serial.begin(115200);
+
+  // Initialize with log level and log output.
+  Log.begin(LOG_LEVEL_VERBOSE, &Serial);
+
+  // Log ESP Chip information
+  Log.notice(F("ESP32 Chip model %s Rev %d" CR), ESP.getChipModel(),
+             ESP.getChipRevision());
+  Log.notice(F("This chip has %d cores" CR), ESP.getChipCores());
+
+  // Start I2C communication
+  if (!bme.begin(0x76))
+  {
+    Log.notice("Could not find a BME280 sensor, check wiring!");
+    while (1)
+      ;
+  }
+
+  clientId += String(random(0xffff), HEX);
+
+  // Connect to WiFi
+  setup_wifi();
+
+  // Setup PIN Mode for Relay
+  pinMode(Relay_00_Pin, OUTPUT);
+  pinMode(Relay_01_Pin, OUTPUT);
+  pinMode(Relay_02_Pin, OUTPUT);
+  pinMode(Relay_03_Pin, OUTPUT);
+
+  // Init Relay
+  digitalWrite(Relay_00_Pin, HIGH);
+  digitalWrite(Relay_01_Pin, HIGH);
+  digitalWrite(Relay_02_Pin, HIGH);
+  digitalWrite(Relay_03_Pin, HIGH);
+
+  // Init NTP
+  timeClient.begin();
+  timeClient.setTimeOffset(0);
+}
+
+/**
+ * Loop lifecycle
+ */
+void loop()
+{
+  while (!timeClient.update())
+  {
+    timeClient.forceUpdate();
+  }
+
+  long now = millis();
+  
+  if (!client.connected())
+  {
+    reconnect();
+  }
+  
+  client.loop();
+
+  if (now - lastMessage > interval)
+  {
+    lastMessage = now;
+
+    // Allocate the JSON document
+    // Inside the brackets, 200 is the RAM allocated to this document.
+    // Don't forget to change this value to match your requirement.
+    // Use arduinojson.org/v6/assistant to compute the capacity.
+    StaticJsonDocument<256> telemetry;
+
+    /**
+     * Reading humidity, temperature and pressure
+     * Temperature is always a floating point, in Centigrade. Pressure is a 
+     * 32 bit integer with the pressure in Pascals. You may need to convert 
+     * to a different value to match it with your weather report. Humidity is 
+     * in % Relative Humidity
+     */
+    temperature = bme.readTemperature();
+    humidity = bme.readHumidity();
+    pressure = bme.readPressure();
+
+    telemetry["clientId"] = clientId.c_str();
+    telemetry["deviceName"] = device_name;
+    telemetry["time"] = timeClient.getEpochTime();
+    telemetry["temperature"] = temperature;
+    telemetry["humidity"] = humidity;
+    telemetry["pressure"] = pressure;
+    telemetry["interval"] = interval;
+    telemetry["counter"] = ++counter;
+
+    JsonArray relaysStatusJsonArray = telemetry.createNestedArray("relaysStatus");
+
+    int * relaysStatus = get_relays_status();
+
+    for (int i = 0; i <= 3; i++)
+    {
+        relaysStatusJsonArray.add(relaysStatus[i]);
+    }
+    
+    char telemetryAsJson[256];
+    serializeJson(telemetry, telemetryAsJson);
+
+    client.publish(topic_telemetry_data, telemetryAsJson);
+
+    serializeJsonPretty(telemetry, Serial);
+    Serial.println();
+  }
+}
+----
+
+Ci siamo! Il prossimo step da affrontare è la fase di build e upload del software sui device ESP32.

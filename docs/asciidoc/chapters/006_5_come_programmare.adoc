@@ -1,0 +1,27 @@
+<<<
+== Come programmare l'ESP32
+
+https://www.espressif.com/en/products/sdks/esp-idf[*ESP-IDF*] è il framework di sviluppo IoT ufficiale di Espressif per le serie di SoC ESP32 ed ESP32-S. Fornisce un SDK autosufficiente per qualsiasi sviluppo di applicazioni generiche su queste piattaforme, utilizzando linguaggi di programmazione come C e C++. ESP-IDF attualmente alimenta milioni di dispositivi sul campo e consente di costruire una varietà di prodotti connessi in rete, che vanno da semplici lampadine e giocattoli a grandi elettrodomestici e dispositivi industriali.
+
+Per questa soluzione ho scelto però di adottare il framework di https://www.arduino.cc/reference/en/[*Arduino*] basato su https://it.wikipedia.org/wiki/Wiring[*Wiring*], per tre semplici motivi: semplice da usare, ampia documentazione e ampiamente diffuso e conosciuto.
+
+**Utilizzeremo quindi il classico ambiente di programmazione https://www.arduino.cc/en/software[Arduino IDE]?** No, propongo qualcosa di diverso.
+
+Sono sempre stato dell'idea che dal momento in cui si crea un progetto software, per quanto possibile, è meglio non legare questo ad uno specifico https://it.wikipedia.org/wiki/Integrated_development_environment[*IDE*](Integrated Development Environment). Mi piace il fatto che i progetti siano indipendenti dall'IDE, devo essere nelle condizioni di poter eseguire la build del progetto da linea di comando: *git clone, build and install*.
+
+Il qualcosa di diverso è https://platformio.org/[*PlatformIO*]. È un framework cross-platform, https://docs.platformio.org/en/latest/boards/index.html[cross-architecture], https://docs.platformio.org/en/latest/frameworks/index.html[multiple-framework]: uno strumento per ingegneri di sistemi embedded e per sviluppatori software che scrivono applicazioni per prodotti embedded.
+
+Senza entrare troppo in profondità nei dettagli di implementazione di PlatformIO, il ciclo di lavoro del progetto sviluppato utilizzando PlatformIO è il seguente:
+
+. Si scelgono le schede di sviluppo interessate specificandole all'interno del file platformio.ini (file di configurazione del progetto).
+. Sulla base di questo elenco di schede, PlatformIO scarica le toolchain richieste e le installa automaticamente.
+. Si inizia lo sviluppo del codice e PlatformIO si assicura che sia compilato, preparato e caricato su tutte le schede di interesse.
+
+Per la scrittura del codice è possibile utilizzare il vostro editor o IDE preferito, in alternativa si può utilizzare https://docs.platformio.org/en/latest/integration/ide/pioide.html#platformio-for-vscode[PlatformIO per VSCode].
+
+L'unico requisito è l'installazione di https://docs.platformio.org/en/latest/core/index.html[PlatformIO Core (CLI)] sulla propria macchina di sviluppo. PlatformIO Core è scritto in https://www.python.org/downloads/[Python] e funziona quindi su Windows, macOS, Linux, FreeBSD e _ARM_-based credit-card sized computer (http://www.raspberrypi.org/[Raspberry Pi], http://beagleboard.org/[BeagleBone], http://cubieboard.org/[CubieBoard], https://www.artik.io/[Samsung ARTIK], etc.).
+
+<<<
+La versione minima di PlatformIO Core da installare è la versione 5.x. Se avete già installata una versione di PlatformIO, è possibile eseguire l'upgrade attraverso il comando `pio upgrade`.
+
+Adesso che abbiamo scelto PlatformIO come strumento di supporto allo sviluppo del software, possiamo passare ad analizzare il codice sviluppato.

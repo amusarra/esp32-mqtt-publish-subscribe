@@ -1,0 +1,17 @@
+=== I componenti hardware
+
+image::GY-BME-280-300x300.jpg[title="Figura 4 - Sensore parametri atmosferici GY-BME280"]
+
+Il sensore https://amzn.to/3soICXM[GY-BME280] consente di misurare la pressione atmosferica, oltre che la temperatura dell’aria e altre condizioni atmosferiche basilari per la creazione di una stazione meteo DYI. Il modulo può essere controllato tramite il bus https://en.wikipedia.org/wiki/I%C2%B2C[*I2C*] o https://en.wikipedia.org/wiki/Serial_Peripheral_Interface[*SPI*]. Lo specifico modello utilizzato per questa soluzione è quello che dispone solo del bus I2C. Per tutte le informazioni di dettaglio di questo sensore fare riferimento alla
+https://cdn-shop.adafruit.com/datasheets/BST-BME280_DS001-10.pdf[scheda tecnica].
+
+image::ESP32_DEVKIT_V1-300x528.jpg[title="Figura 5 - Kit di sviluppo ESP32"]
+
+L'https://www.espressif.com/sites/default/files/documentation/esp32_technical_reference_manual_en.pdf[ESP32] è l'MCU prodotta da https://www.espressif.com/[Espressif System], un sistema dual-core CPU Harvard Architecture Xtensa LX6. La scelta di questa MCU è stata dettata per l'assoluta flessibilità e semplicità di programmazione e in particolare perché integra il modulo WiFi, quest'ultimo necessario per connettere l'MCU alla rete e di conseguenza poter comunicare con il Message Broker. Visto che quello che andremo a realizzare è un prototipo, utilizzeremo una scheda di sviluppo basata sul chip https://amzn.to/2NXqtkW[ESP-WROOM-32].
+
+image::RelayModule4Channel-300x246.jpg[title="Figura 6 - Modulo da quattro Relè su GPIO"]
+
+Il modulo composto da quattro relè è connesso all'MCU fruttando le porte https://en.wikipedia.org/wiki/General-purpose_input/output[*GPIO*] (General Purpose Input/Output). Questo modulo è progettato
+opportunamente per essere collegato direttamente alle porte GPIO dell'MCU e funziona con una tensione di alimentazione pari a 5 volt. Sul portale di Elegoo sono riportate tutte le specifiche tecniche del modulo https://www.elegoo.com/products/elegoo-8-channel-relay-module-kit[ELEGOO Relay Module With Optocoupler].
+
+Per il Gateway di questa soluzione ho deciso di adottare la single-board computer (https://en.wikipedia.org/wiki/Single-board_computer[*SBC*]) https://www.raspberrypi.org/products/raspberry-pi-4-model-b/[Raspberry Pi 4] e in particolare il modello con 8 GByte di memoria RAM.

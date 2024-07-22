@@ -1,0 +1,254 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1474.08333275" height="821.3331280000001" font-family="Consolas, Menlo, 'Bitstream Vera Sans Mono', monospace, 'Powerline Symbols'" font-size="14px">
+  <style>
+    .br { font-weight: bold }
+    .fa { fill-opacity: 0.5 }
+    .it { font-style: italic }
+    .un { text-decoration: underline }
+  </style>
+
+  <rect width="100%" height="100%" style="fill: #121314" rx="4" ry="4"></rect>
+
+  <svg x="8.42333333" y="9.333331000000001" class="default-text-fill">
+    <g style="shape-rendering: optimizeSpeed">
+
+        <rect x="227.42999991" y="503.99987400000003" width="8.42333333" height="18.666662000000002" style="fill: #d9d9d9"></rect>
+
+
+    </g>
+
+    <text style="fill: #cccccc">
+      <tspan y="0.0">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="210.58333325">
+$ # Enable the Mnesia Module
+        </tspan>
+      </tspan><tspan y="18.666662000000002">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="210.58333325">
+$ docker exec -it emqxe /bin/bash ./bin/emqx_ctl plugins load emqx_auth_mnesia
+        </tspan>
+      </tspan><tspan y="37.333324000000005">
+        <tspan dy="1em" x="0.0">
+Plugin emqx_auth_mnesia loaded successfully.
+        </tspan>
+      </tspan><tspan y="55.99998600000001">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="210.58333325">
+$ # Add User
+        </tspan>
+      </tspan><tspan y="74.66664800000001">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="210.58333325">
+$ # git clone https://gist.github.com/fa3294ff35c8794d2eb8a2b5792901df.git emqx-user-acl
+        </tspan>
+      </tspan><tspan y="93.33331000000001">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="210.58333325">
+$ git clone https://gist.github.com/fa3294ff35c8794d2eb8a2b5792901df.git emqx-user-acl
+        </tspan>
+      </tspan><tspan y="111.99997200000001">
+        <tspan dy="1em" x="0.0">
+Cloning into &#39;emqx-user-acl&#39;...
+        </tspan>
+      </tspan><tspan y="130.66663400000002">
+        <tspan dy="1em" x="0.0">
+remote: Enumerating objects: 6, done.
+        </tspan>
+      </tspan><tspan y="149.33329600000002">
+        <tspan dy="1em" x="0.0">
+remote: Counting objects: 100% (6/6), done.
+        </tspan>
+      </tspan><tspan y="167.99995800000002">
+        <tspan dy="1em" x="0.0">
+remote: Compressing objects: 100% (6/6), done.
+        </tspan>
+      </tspan><tspan y="186.66662000000002">
+        <tspan dy="1em" x="0.0">
+remote: Total 6 (delta 2), reused 0 (delta 0), pack-reused 0
+        </tspan>
+      </tspan><tspan y="205.33328200000003">
+        <tspan dy="1em" x="0.0">
+Unpacking objects: 100% (6/6), 856 bytes | 171.00 KiB/s, done.
+        </tspan>
+      </tspan><tspan y="223.99994400000003">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="210.58333325">
+$ ls -l emqx-user-acl/
+        </tspan>
+      </tspan><tspan y="242.66660600000003">
+        <tspan dy="1em" x="0.0">
+total 16
+        </tspan>
+      </tspan><tspan y="261.33326800000003">
+        <tspan dy="1em" x="0.0">
+-rw-rw-r-- 1 amusarra amusarra 1367 Apr
+        </tspan><tspan x="345.35666653">
+5 00:16 acl_rules_user_esp32_device.json
+        </tspan>
+      </tspan><tspan y="279.99993">
+        <tspan dy="1em" x="0.0">
+-rw-rw-r-- 1 amusarra amusarra 1391 Apr
+        </tspan><tspan x="345.35666653">
+5 00:16 acl_rules_user_gw_rpi4_device.json
+        </tspan>
+      </tspan><tspan y="298.66659200000004">
+        <tspan dy="1em" x="0.0">
+-rw-rw-r-- 1 amusarra amusarra 1391 Apr
+        </tspan><tspan x="345.35666653">
+5 00:16 acl_rules_user_mqtt_dashboard_device.json
+        </tspan>
+      </tspan><tspan y="317.333254">
+        <tspan dy="1em" x="0.0">
+-rw-rw-r-- 1 amusarra amusarra
+        </tspan><tspan x="269.54666656">
+295 Apr
+        </tspan><tspan x="345.35666653">
+5 00:16 add_users.json
+        </tspan>
+      </tspan><tspan y="335.99991600000004">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="210.58333325">
+$ curl -u admin:public -H &quot;Content-Type: application/json&quot; -d @emqx-user-acl/add_users.json http://192.168.1.83:18083/api/v4/mqtt_user
+        </tspan>
+      </tspan><tspan y="354.666578">
+        <tspan dy="1em" x="0.0">
+{&quot;data&quot;:{&quot;mqtt-dashboard&quot;:&quot;ok&quot;,&quot;gw-rpi4-device&quot;:&quot;ok&quot;,&quot;esp32-device&quot;:&quot;ok&quot;},&quot;code&quot;:0}
+        </tspan><tspan x="699.13666639" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="892.87333298">
+:
+        </tspan><tspan x="901.29666631" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="909.71999964">
+$
+        </tspan>
+      </tspan><tspan y="373.33324000000005">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="210.58333325">
+$ # Add ACL for User/Topic
+        </tspan>
+      </tspan><tspan y="391.999902">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="210.58333325">
+$ curl -u admin:public -H &quot;Content-Type: application/json&quot; -d @emqx-user-acl/acl_rules_user_esp32_device.json http://192.168.1.83:18083/api/v4/mqtt_
+        </tspan>
+      </tspan><tspan y="410.66656400000005">
+        <tspan dy="1em" x="0.0">
+acl
+        </tspan>
+      </tspan><tspan y="429.333226">
+        <tspan dy="1em" x="0.0">
+{&quot;data&quot;:{&quot;esp32-device&quot;:&quot;ok&quot;},&quot;code&quot;:0}
+        </tspan><tspan x="328.50999987" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="522.24666646">
+:
+        </tspan><tspan x="530.66999979" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="539.09333312">
+$
+        </tspan>
+      </tspan><tspan y="447.99988800000006">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="210.58333325">
+$ curl -u admin:public -H &quot;Content-Type: application/json&quot; -d @emqx-user-acl/acl_rules_user_gw_rpi4_device.json http://192.168.1.83:18083/api/v4/mqt
+        </tspan>
+      </tspan><tspan y="466.66655000000003">
+        <tspan dy="1em" x="0.0">
+t_acl
+        </tspan>
+      </tspan><tspan y="485.33321200000006">
+        <tspan dy="1em" x="0.0">
+{&quot;data&quot;:{&quot;gw-rpi4-device&quot;:&quot;ok&quot;},&quot;code&quot;:0}
+        </tspan><tspan x="345.35666653" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="539.09333312">
+:
+        </tspan><tspan x="547.51666645" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="555.93999978">
+$
+        </tspan>
+      </tspan><tspan y="503.99987400000003">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="210.58333325">
+$ 
+        </tspan>
+      </tspan>
+    </text>
+  </svg>
+
+  <g transform="translate(-40 -40)">
+    <svg x="50%" y="50%" width="80" height="80">
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000.0 1000.0" style="filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.4))">
+  <defs>
+    <mask id="small-triangle-mask">
+      <rect width="100%" height="100%" fill="white"></rect>
+      <polygon points="700.0 500.0, 400.00000000000006 326.7949192431122, 399.9999999999999 673.2050807568877" fill="black">
+      </polygon>
+    </mask>
+  </defs>
+  <polygon points="1000.0 500.0, 250.0000000000001 66.98729810778059, 249.99999999999977 933.0127018922192" mask="url(#small-triangle-mask)" fill="white">
+  </polygon>
+  <polyline points="673.2050807568878 400.0, 326.7949192431123 600.0" stroke="white" stroke-width="90">
+  </polyline>
+</svg>
+    </svg>
+  </g>
+</svg>

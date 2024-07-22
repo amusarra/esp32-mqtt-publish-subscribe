@@ -1,0 +1,10 @@
+<<<
+== Conclusioni
+
+Ringrazio tutti voi per essere arrivati "incolumi" alla fine di questo lungo eBook sperando di non essere stato noioso ma di essere riuscito nell'intento di rendere interessanti gli argomenti trattati oltre che a spingere la vostra curiosità in avanti.
+
+Avrei voluto approfondire altri argomenti come per esempio https://www.emqx.io/products/kuiper[EMQ X Kuiper], da introdurre in questa architettura per affiancarlo a EMQ X Edge con lo scopo di fare real-time streaming data processing, utile nel caso in cui dobbiamo eseguire delle azioni a fronte dei dati ambientali ricevuti. Il controllo dei valori di Threshold è una delle operazioni che andrebbe spostata per esempio su EMQ X Kuiper.
+
+Avrei voluto ancora approfondire altri argomenti che riguardano l'EMQ X Edge, come per esempio l'uso del https://docs.emqx.io/en/broker/v4.2/rule/rule-engine.html#publish-message[Rule Engine].
+
+Nell'attesa di pubblicare altri eBook o articoli di approfondimento, vi chiedo di scrivere le vostre impressioni, esperienze o altro di cui vi faccia piacere sia trattato, utilizzando i https://www.dontesta.it/en/2021/04/13/esp32-raspberry-pi-emqx-edge-mqtt-publish-subscribe/#disqus_thread[commenti all'articolo] oppure condividendo questo eBook attraverso i vostri canali social.

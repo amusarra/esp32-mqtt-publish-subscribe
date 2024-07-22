@@ -1,0 +1,294 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2021.5999992" height="1101.3330580000002" font-family="Consolas, Menlo, 'Bitstream Vera Sans Mono', monospace, 'Powerline Symbols'" font-size="14px">
+  <style>
+    .br { font-weight: bold }
+    .fa { fill-opacity: 0.5 }
+    .it { font-style: italic }
+    .un { text-decoration: underline }
+  </style>
+
+  <rect width="100%" height="100%" style="fill: #121314" rx="4" ry="4"></rect>
+
+  <svg x="8.42333333" y="9.333331000000001" class="default-text-fill">
+    <g style="shape-rendering: optimizeSpeed">
+
+        <rect x="1533.04666606" y="18.666662000000002" width="16.84666666" height="18.666662000000002" style="fill: #000000"></rect><rect x="1549.89333272" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #000000"></rect><rect x="1558.31666605" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #000000"></rect><rect x="1566.73999938" y="18.666662000000002" width="84.2333333" height="18.666662000000002" style="fill: #d9d9d9"></rect><rect x="1650.97333268" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #d9d9d9"></rect><rect x="1659.39666601" y="18.666662000000002" width="84.2333333" height="18.666662000000002" style="fill: #ddaf3c"></rect><rect x="1743.6299993100001" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #ddaf3c"></rect><rect x="1752.05333264" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #ddaf3c"></rect><rect x="1760.47666597" y="18.666662000000002" width="75.80999997" height="18.666662000000002" style="fill: #dd3c69"></rect><rect x="1836.2866659400001" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #dd3c69"></rect><rect x="1844.70999927" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #dd3c69"></rect><rect x="1853.1333326000001" y="18.666662000000002" width="58.96333331" height="18.666662000000002" style="fill: #ddaf3c"></rect><rect x="1912.09666591" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #ddaf3c"></rect><rect x="1920.51999924" y="18.666662000000002" width="8.42333333" height="18.666662000000002" style="fill: #ddaf3c"></rect><rect x="1928.94333257" y="18.666662000000002" width="58.96333331" height="18.666662000000002" style="fill: #000000"></rect><rect x="1987.90666588" y="18.666662000000002" width="16.84666666" height="18.666662000000002" style="fill: #000000"></rect>
+
+        <rect x="328.50999987" y="858.666452" width="8.42333333" height="18.666662000000002" style="fill: #d9d9d9"></rect>
+
+
+
+          <polygon points="1533.04666606 18.666662000000002, 1524.6233327300001 27.999993000000003, 1533.04666606 37.333324000000005" fill="#000000"></polygon>
+
+          <polygon points="1566.73999938 18.666662000000002, 1558.31666605 27.999993000000003, 1566.73999938 37.333324000000005" fill="#d9d9d9"></polygon>
+
+          <polygon points="1659.39666601 18.666662000000002, 1650.97333268 27.999993000000003, 1659.39666601 37.333324000000005" fill="#ddaf3c"></polygon>
+
+          <polygon points="1760.47666597 18.666662000000002, 1752.05333264 27.999993000000003, 1760.47666597 37.333324000000005" fill="#dd3c69"></polygon>
+
+          <polygon points="1853.1333326000001 18.666662000000002, 1844.70999927 27.999993000000003, 1853.1333326000001 37.333324000000005" fill="#ddaf3c"></polygon>
+
+          <polygon points="1928.94333257 18.666662000000002, 1920.51999924 27.999993000000003, 1928.94333257 37.333324000000005" fill="#000000"></polygon>
+
+
+    </g>
+
+    <text style="fill: #cccccc">
+      <tspan y="0.0">
+        <tspan dy="1em" x="0.0">
+user: 
+        </tspan><tspan x="50.539999980000005" class="br" style="fill: #ffffff">
+antoniomusarra
+        </tspan><tspan x="176.88999993000002" class="br" style="fill: #54e1b9">
+…/esp32-mqtt-publish-subscribe
+        </tspan><tspan x="438.01333316">
+on 
+        </tspan><tspan x="463.28333315000003" class="br" style="fill: #b954e1">
+ master
+        </tspan><tspan x="539.09333312" class="br" style="fill: #4ebf22">
+(0c40617)
+        </tspan>
+      </tspan><tspan y="18.666662000000002">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+❯
+        </tspan><tspan x="8.42333333" style="fill: #4ebf22">
+platformio
+        </tspan><tspan x="101.07999996000001">
+run --target upload --environment esp32dev
+        </tspan><tspan x="1541.46999939" style="fill: #4ebf22">
+✔
+        </tspan><tspan x="1575.16333271" style="fill: #000000">
+12:00:55 
+        </tspan><tspan x="1667.81999934" style="fill: #000000">
+5.69G RAM
+        </tspan><tspan x="1768.8999993" style="fill: #d9d9d9">
+97% hdd 
+        </tspan><tspan x="1861.55666593" style="fill: #000000">
+2.66 L
+        </tspan><tspan x="1937.3666659" style="fill: #4ebf22">
+100% 🔋
+        </tspan>
+      </tspan><tspan y="37.333324000000005">
+        <tspan dy="1em" x="0.0">
+Processing 
+        </tspan><tspan x="92.65666663" class="br" style="fill: #54e1b9">
+esp32dev
+        </tspan><tspan x="168.4666666">
+(platform: espressif32; board: esp32dev; framework: arduino)
+        </tspan>
+      </tspan><tspan y="55.99998600000001">
+        <tspan dy="1em" x="0.0" class="br">
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        </tspan>
+      </tspan><tspan y="74.66664800000001">
+        <tspan dy="1em" x="0.0">
+Verbose mode can be enabled via `-v, --verbose` option
+        </tspan>
+      </tspan><tspan y="93.33331000000001">
+        <tspan dy="1em" x="0.0">
+CONFIGURATION: https://docs.platformio.org/page/boards/espressif32/esp32dev.html
+        </tspan>
+      </tspan><tspan y="111.99997200000001">
+        <tspan dy="1em" x="0.0">
+PLATFORM: Espressif 32 (3.2.0) &gt; Espressif ESP32 Dev Module
+        </tspan>
+      </tspan><tspan y="130.66663400000002">
+        <tspan dy="1em" x="0.0">
+HARDWARE: ESP32 240MHz, 320KB RAM, 4MB Flash
+        </tspan>
+      </tspan><tspan y="149.33329600000002">
+        <tspan dy="1em" x="0.0">
+DEBUG: Current (esp-prog) External (esp-prog, iot-bus-jtag, jlink, minimodule, olimex-arm-usb-ocd, olimex-arm-usb-ocd-h, olimex-arm-usb-tiny-h, olimex-jtag-tiny, tumpa)
+        </tspan>
+      </tspan><tspan y="167.99995800000002">
+        <tspan dy="1em" x="0.0">
+PACKAGES:
+        </tspan>
+      </tspan><tspan y="186.66662000000002">
+        <tspan dy="1em" x="8.42333333">
+- framework-arduinoespressif32 3.10006.210326 (1.0.6)
+        </tspan>
+      </tspan><tspan y="205.33328200000003">
+        <tspan dy="1em" x="8.42333333">
+- tool-esptoolpy 1.30000.201119 (3.0.0)
+        </tspan>
+      </tspan><tspan y="223.99994400000003">
+        <tspan dy="1em" x="8.42333333">
+- tool-mkspiffs 2.230.0 (2.30)
+        </tspan>
+      </tspan><tspan y="242.66660600000003">
+        <tspan dy="1em" x="8.42333333">
+- toolchain-xtensa32 2.50200.97 (5.2.0)
+        </tspan>
+      </tspan><tspan y="261.33326800000003">
+        <tspan dy="1em" x="0.0">
+LDF: Library Dependency Finder -&gt; http://bit.ly/configure-pio-ldf
+        </tspan>
+      </tspan><tspan y="279.99993">
+        <tspan dy="1em" x="0.0">
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+        </tspan>
+      </tspan><tspan y="298.66659200000004">
+        <tspan dy="1em" x="0.0">
+Found 35 compatible libraries
+        </tspan>
+      </tspan><tspan y="317.333254">
+        <tspan dy="1em" x="0.0">
+Scanning dependencies...
+        </tspan>
+      </tspan><tspan y="335.99991600000004">
+        <tspan dy="1em" x="0.0">
+Dependency Graph
+        </tspan>
+      </tspan><tspan y="354.666578">
+        <tspan dy="1em" x="0.0">
+|-- &lt;NTPClient&gt; 3.1.0
+        </tspan>
+      </tspan><tspan y="373.33324000000005">
+        <tspan dy="1em" x="0.0">
+|-- &lt;Adafruit BME280 Library&gt; 2.1.2
+        </tspan>
+      </tspan><tspan y="391.999902">
+        <tspan dy="1em" x="0.0">
+|
+        </tspan><tspan x="33.69333332">
+|-- &lt;Adafruit Unified Sensor&gt; 1.1.4
+        </tspan>
+      </tspan><tspan y="410.66656400000005">
+        <tspan dy="1em" x="0.0">
+|
+        </tspan><tspan x="33.69333332">
+|-- &lt;SPI&gt; 1.0
+        </tspan>
+      </tspan><tspan y="429.333226">
+        <tspan dy="1em" x="0.0">
+|
+        </tspan><tspan x="33.69333332">
+|-- &lt;Wire&gt; 1.0.1
+        </tspan>
+      </tspan><tspan y="447.99988800000006">
+        <tspan dy="1em" x="0.0">
+|-- &lt;Adafruit Unified Sensor&gt; 1.1.4
+        </tspan>
+      </tspan><tspan y="466.66655000000003">
+        <tspan dy="1em" x="0.0">
+|-- &lt;ArduinoJson&gt; 6.17.3
+        </tspan>
+      </tspan><tspan y="485.33321200000006">
+        <tspan dy="1em" x="0.0">
+|-- &lt;ArduinoLog&gt; 1.0.3
+        </tspan>
+      </tspan><tspan y="503.99987400000003">
+        <tspan dy="1em" x="0.0">
+|-- &lt;ESP32Ping&gt; 1.7.0
+        </tspan>
+      </tspan><tspan y="522.6665360000001">
+        <tspan dy="1em" x="0.0">
+|
+        </tspan><tspan x="33.69333332">
+|-- &lt;WiFi&gt; 1.0
+        </tspan>
+      </tspan><tspan y="541.333198">
+        <tspan dy="1em" x="0.0">
+|-- &lt;PubSubClient&gt; 2.8.0
+        </tspan>
+      </tspan><tspan y="559.99986">
+        <tspan dy="1em" x="0.0">
+|-- &lt;WiFi&gt; 1.0
+        </tspan>
+      </tspan><tspan y="578.6665220000001">
+        <tspan dy="1em" x="0.0">
+|-- &lt;Wire&gt; 1.0.1
+        </tspan>
+      </tspan><tspan y="597.3331840000001">
+        <tspan dy="1em" x="0.0">
+Building in release mode
+        </tspan>
+      </tspan><tspan y="615.999846">
+        <tspan dy="1em" x="0.0">
+Retrieving maximum program size .pio/build/esp32dev/firmware.elf
+        </tspan>
+      </tspan><tspan y="634.666508">
+        <tspan dy="1em" x="0.0">
+Checking size .pio/build/esp32dev/firmware.elf
+        </tspan>
+      </tspan><tspan y="653.33317">
+        <tspan dy="1em" x="0.0">
+Advanced Memory Usage is available via &quot;PlatformIO Home &gt; Project Inspect&quot;
+        </tspan>
+      </tspan><tspan y="671.9998320000001">
+        <tspan dy="1em" x="0.0">
+RAM:
+        </tspan><tspan x="58.96333331">
+[=
+        </tspan><tspan x="151.61999994">
+]
+        </tspan><tspan x="176.88999993000002">
+12.2% (used 39916 bytes from 327680 bytes)
+        </tspan>
+      </tspan><tspan y="690.6664940000001">
+        <tspan dy="1em" x="0.0">
+Flash: [======
+        </tspan><tspan x="151.61999994">
+]
+        </tspan><tspan x="176.88999993000002">
+56.8% (used 744898 bytes from 1310720 bytes)
+        </tspan>
+      </tspan><tspan y="709.333156">
+        <tspan dy="1em" x="0.0">
+Configuring upload protocol...
+        </tspan>
+      </tspan><tspan y="727.999818">
+        <tspan dy="1em" x="0.0">
+AVAILABLE: esp-prog, espota, esptool, iot-bus-jtag, jlink, minimodule, olimex-arm-usb-ocd, olimex-arm-usb-ocd-h, olimex-arm-usb-tiny-h, olimex-jtag-tiny, tumpa
+        </tspan>
+      </tspan><tspan y="746.6664800000001">
+        <tspan dy="1em" x="0.0">
+CURRENT: upload_protocol = esptool
+        </tspan>
+      </tspan><tspan y="765.3331420000001">
+        <tspan dy="1em" x="0.0">
+Looking for upload port...
+        </tspan>
+      </tspan><tspan y="783.999804">
+        <tspan dy="1em" x="0.0">
+Auto-detected: /dev/cu.usbserial-0001
+        </tspan>
+      </tspan><tspan y="802.666466">
+        <tspan dy="1em" x="0.0">
+Uploading .pio/build/esp32dev/firmware.bin
+        </tspan>
+      </tspan><tspan y="821.3331280000001">
+        <tspan dy="1em" x="0.0">
+esptool.py v3.0
+        </tspan>
+      </tspan><tspan y="839.9997900000001">
+        <tspan dy="1em" x="0.0">
+Serial port /dev/cu.usbserial-0001
+        </tspan>
+      </tspan><tspan y="858.666452">
+        <tspan dy="1em" x="0.0">
+Connecting........_____....._____....._
+        </tspan>
+      </tspan>
+    </text>
+  </svg>
+
+  <g transform="translate(-40 -40)">
+    <svg x="50%" y="50%" width="80" height="80">
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000.0 1000.0" style="filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.4))">
+  <defs>
+    <mask id="small-triangle-mask">
+      <rect width="100%" height="100%" fill="white"></rect>
+      <polygon points="700.0 500.0, 400.00000000000006 326.7949192431122, 399.9999999999999 673.2050807568877" fill="black">
+      </polygon>
+    </mask>
+  </defs>
+  <polygon points="1000.0 500.0, 250.0000000000001 66.98729810778059, 249.99999999999977 933.0127018922192" mask="url(#small-triangle-mask)" fill="white">
+  </polygon>
+  <polyline points="673.2050807568878 400.0, 326.7949192431123 600.0" stroke="white" stroke-width="90">
+  </polyline>
+</svg>
+    </svg>
+  </g>
+</svg>

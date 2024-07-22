@@ -1,0 +1,34 @@
+=== Implementazione del prototipo
+
+Adesso che abbiamo chiaro lo schema elettrico della nostra soluzione IoT, non resta altro che realizzare il prototipo. Tutto ciò che serve è indicato dalla tabella a seguire. Il prezzo mostrato è quello al momento della scrittura di questo articolo, potrebbe quindi subire delle leggere variazioni nel corso del tempo.
+
+.Tabella 1 - Elenco dei componenti hardware per la realizzazione del prototipo della soluzione IoT
+[%autowidth]
+|===
+|*Descrizione* |*Prezzo* (unitario) |*Store*
+
+|https://amzn.to/2PAlcQv[Breadboard (830 contatti)] (non necessaria) |€4,99 |Amazon
+
+|https://amzn.to/3rpKNJs[Jumper Wire Cable Cavo F2F] |€ 4,79 |Amazon
+
+|https://amzn.to/3rpSJu0[Jumper Wire Cable Cavo M2M] |€ 5,29 |Amazon
+
+|https://amzn.to/3rkr4uw[Elegoo 4 Channel DC 5V Modulo Relay con Accoppiatore Ottico] (x2) |€ 6,85 |Amazon
+
+|https://amzn.to/3ssAPYO[GY-BME280 Sensore Pressione Barometrica] (x2) |€ 9,49 |Amazon
+
+|https://amzn.to/3fgRTgJ[Scheda di Sviluppo ESP-WROOM-32 (2 Pack)] |€15,99 |Amazon
+
+|https://www.melopero.com/shop/raspberry-pi/boards/raspberry-pi-4-model-b-8gb/?src=raspberrypi[Raspberry Pi 4 Model B 8GB RAM] |€ 83,90 |Melopero
+
+|https://amzn.to/3lUHJ6N[Display LCD 16x2] |€ 12,99 |Amazon
+
+|*Totale* |*€ 160,63* |
+|===
+
+Una volta ottenuti tutti i pezzi indicati nel precedente elenco, è possibile procedere con l'assemblaggio dei vari componenti facendo riferimento allo schema elettrico mostrato in precedenza. Avrete bisogno anche di un saldatore stilo, questo perchè il sensore BME 280 è fornito di pettine ma non è saldato sul https://www.ourpcb.com/pcb-layout-the-ultimate-guide-best-for-beginners.html[PCB], operazione che dovremo fare da noi. Così facendo dovreste ottenere il risultato mostrato dalla figura a seguire.
+
+image::soluzione_iot_stazione_meteo_montata-scaled.jpg[title="Figura 10 - Assemblaggio dei componenti hardware della soluzione IoT secondo lo schema elettrico specificato in Figura 8"]
+
+<<<
+L'implementazione del prototipo è così ultimata e con i "pezzi di ferro" abbiamo terminato. Possiamo quindi mettere al momento il prototipo da parte per continuare adesso in poi con la sezione software, iniziando dall'installazione dell'MQTT Broker sul Gateway (ovvero Raspberry Pi).

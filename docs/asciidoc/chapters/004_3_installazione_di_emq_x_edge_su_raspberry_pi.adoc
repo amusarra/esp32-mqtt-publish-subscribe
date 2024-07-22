@@ -1,0 +1,33 @@
+<<<
+== Installazione di EMQ X Edge su Raspberry Pi
+
+Esistono vari modi per https://docs.emqx.io/en/edge/latest/install.html#download-packages[installare EMQ X Edge su Raspberry Pi]. Visto che il Raspberry Pi in mio possesso è già predisposto con https://ubuntu.com/download/raspberry-pi[Ubuntu 20.04 LTS] e https://docker.com[Docker], la strada naturale è l'installazione via Docker, sfruttando l'ultima versione stabile dell'immagine di EMQ X Edge che in questo momento è la https://hub.docker.com/r/emqx/emqx-edge/tags?page=1&ordering=last_updated&name=4.2.9[4.2.9].
+
+Per https://docs.docker.com/engine/install/[installare Docker Engine sul vostro Raspberry Pi] vi rimando alla documentazione ufficiale disponibile sul sito di Docker. La versione di Docker installata sul mio Raspberry Pi 4 è la 20.10.15.
+
+A seguire è mostrato il comando Docker per avviare il container di EMQ X Edge partendo dall'immagine https://hub.docker.com/r/emqx/emqx-edge[emqx/emqx-edge:4.2.9]. Il comando successivo mostra lo stato di EMQ X Edge utilizzando il tool di
+gestione https://docs.emqx.io/en/broker/v4.2/advanced/cli.html[*eqmx_ctl*] e il relativo output, che in questo caso informa circa l'attuale status e la versione. Nell'avvio del container è stato specificato tramite l'environment EMQX_ALLOW_ANONYMOUS impostata a false, di non consentire l'accesso a utenti anonimi, questo per ovvi motivi di sicurezza.
+
+[source,shell,title="Console 1 - Installazione EMQ X Edge"]
+----
+# Create create a new Docker Network Bridge
+docker network create edge-iot
+ 
+# Run EMQ X Edge as Docker Image
+docker run -d --network edge-iot --name mqtt-broker -e EMQX_ALLOW_ANONYMOUS=false -p 8083:8083 -p 18083:18083 -p 1883:1883 emqx/emqx-edge:4.2.9
+
+# Get Status of the EMQ X Edge
+docker exec -it mqtt-broker /bin/bash ./bin/emqx_ctl status
+
+# Output of the EMQ X Edge
+Node 'cee88f3106d3@172.17.0.2' is started
+emqx 4.2.9 is running
+----
+
+A seguire è mostrato lo screencast di https://asciinema.org/a/406460[How to install EMQ X Edge on Raspberry Pi 4 from Docker Image] in modo che possiate vedere esattamente l'esecuzione degli step indicati in precedenza.
+
+image::406460.svg[asciicast,title="Screencast 1 - How to install EMQ X Edge on Raspberry Pi 4 from Docker Image",link=https://asciinema.org/a/406460]
+
+Una volta che il container di EMQ X Edge è up, possiamo raggiungere la Dashboard di amministrazione attraverso il nostro browser puntando all'indirizzo http://$\{IP_GATEWAY_RPI}:18083. La username e password di accesso di default sono: admin/public (consigliato il cambio password). La figura a seguire mostra la home della dashboard di EMQ X Edge.
+
+image::emqx_edge_dashboard_home_page.png[title="Figura 11 - Dashboard di EMQ X Edge su Raspberry Pi 4"]

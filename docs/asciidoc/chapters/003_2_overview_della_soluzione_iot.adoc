@@ -1,0 +1,16 @@
+<<<
+== Overview sull'architettura della soluzione IoT
+
+L'architettura di questa soluzione include nel suo insieme componenti hardware e software. *Quali sono i componenti che costituiscono questa soluzione IoT?*
+
+* *Componenti Hardware*
+** Sensore dei dati ambientali: GY-BME280
+** MCU: Espressif ESP32
+** Actuator: Modulo Relay (x4)
+** Gateway: Raspberry Pi 4
+
+* *Componenti Software*(principali)
+** MQTT Broker: EMQ X Edge
+** Data Visualization: Node-RED
+** MCU Firmware
+

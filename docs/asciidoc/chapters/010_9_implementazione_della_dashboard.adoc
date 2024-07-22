@@ -1,0 +1,109 @@
+<<<
+== Implementazione della Dashboard
+
+Per completare la soluzione IoT presentata all'inizio, dobbiamo in qualche modo realizzare la dashboard la cui responsabilità è la visualizzazione dei dati ambientali e l'attivazione/disattivazione dei relè sia in modalità manuale sia in modalità automatica, ovvero, sulla base di valori di threshold (o di soglia) per temperatura, umidità e pressione.
+
+Lo strumento che ho deciso di adottare per assolvere questo compito è https://nodered.org/[*Node-RED*].
+
+Node-RED è uno tra i più noti tool di https://en.wikipedia.org/wiki/Flow-based_programming[*flow-based programming*] (o FBP) per l’Internet of Things. Questo strumento consente di dare a tutti, anche a chi non è esperto di programmazione, la possibilità di collegare tra loro diversi dispositivi (con eventuali relativi sensori ed attuatori), oltre a API e servizi online per poter realizzare sistemi altamente integrati e complessi in modo del tutto semplice e intuitivo. È molto utile anche in fase di prototipazione di un progetto per individuare da subito funzionalità e potenzialità.
+
+Quelli indicati a seguire sono i tre punti che ho preso in considerazione per adottare questo strumento.
+
+* Poiché può essere eseguito su dispositivi edge (preinstallati su versioni specifiche del sistema operativo Raspberry Pi), è ideale per la gestione dei dati a livello di dispositivo.
+* Poiché può essere eseguito in ambiente cloud (fornito come servizio predefinito in IBM Cloud), è facile collegarlo al middleware di archiviazione e analisi.
+* Supporta i protocolli MQTT e HTTP, quindi è molto facile scambiare dati tra il dispositivo e il server di elaborazione, che può risiedere anche in ambiente cloud.
+
+Il primo step da fare è l'installazione di Node-RED sul nostro Gateway, ovvero, sul Raspberry Pi. Ormai Docker è il nostro amico, procederemo quindi con https://nodered.org/docs/getting-started/docker[l'installazione di Node-RED via Docker]. A seguire sono indicati i comandi necessari per installare l'ultima versione di Node-RED (in questo momento la 1.3.1).
+
+<<<
+[source,bash,title="Console 6 - Setup Node-RED"]
+----
+# Create and run Node-RED Docker container
+docker run -d --network edge-iot -p 1880:1880 --name node-red nodered/node-red:1.3.1
+
+# Install Dashboard
+docker exec -it node-red /bin/bash <1>
+
+# Inside the Node-RED container
+npm install node-red-dashboard <2>
+exit
+
+# On the Host
+docker restart node-red
+----
+<1> Comando per ottenere la shell sul container di Node-RED
+<2> Installazione della Dashboard NodeRED via `npm`
+
+Come potete vedere dal primo comando Docker, ho inserito il container di Node-RED all'interno della stessa rete del Message Broker (EMQ X Edge). È possibile vedere l'effetto utilizzando il comando `docker network inspect edge-iot` che mostra in questo caso i due container che fanno parte della rete edge-iot e che sono: l'mqtt-broker e node-red. La figura a seguire mostra parte dell'output del comando.
+
+image::output_docker_network_inspect_edge_iot.png[title="Figura 22 - Inspect della rete Docker iot-edge creata per il Message Broker e Node-RED"]
+
+A seguire è mostrato lo screencast di https://asciinema.org/a/406607?autoplay=1[Install Node-RED 1.3.1 via Docker on Raspberry Pi 4] in modo che possiate vedere esattamente l'esecuzione degli step indicati in precedenza.
+
+image::406607.svg[asciicast,title="Screencast 6 - Install Node-RED 1.3.1 via Docker on Raspberry Pi 4",link="https://asciinema.org/a/406607?autoplay=1"]
+
+Dopo l'avvio del container node-red, dovremmo poter raggiungere l'applicazione puntando il browser all'indirizzo https://$\{IP_GATEWAY_RPI}:1880 ottenendo una vista simile a quella mostrata dalla figura a seguire.
+
+image::node_red_home_page_first_start.png[title="Figura 23 - Home Page di Node-RED subito dopo il primo avvio"]
+
+A questo punto non resta che creare il flusso che ci consentirà di mostrare i dati ambientali di ogni device e di effettuare eventuali azioni sui relè. Non vi preoccupate, ho già bello e pronto il flusso https://gist.github.com/amusarra/8eab9dfc09012b472b95a35be1351302[flow_esp32_mqtt_dashboard.json] da importare su Node-RED.
+
+L'importazione del flusso è molto semplice, basta aprire il menù principale e poi cliccare sulla voce *Import*. Dalla maschera di dialogo abbiamo la possibilità di caricare il flusso tramite file o anche clipboard. Una volta scelto il metodo d'importazione e il flusso in formato JSON è visibile all'interno della text area, occorre cliccare sul pulsante *Import*. La figura a seguire mostra proprio l'importazione del nostro flusso.
+
+image::node_red_import_flow_via_file.png[title="Figura 24 - Importazione flusso Node-RED della dashboard da file JSON o via clipboard"]
+
+Dopo l'importazione dovreste vedere un nuovo sheet contenente il flusso Node-RED così come mostrato dalla figura a seguire. A prima vista il flusso potrebbe apparire complesso ma in realtà non lo è, anzi, credo che sia piuttosto chiaro da leggere anche per via dei nomi molto descrittivi assegnati a ogni nodo del flusso.
+
+image::node_red_complete_flow_esp32_mqtt_publish_subscribe.png[title="Figura 25 - Flusso Node-RED che implementa la dashboard MQTT della nostra soluzione IoT"]
+
+<<<
+Adesso vediamo il ruolo ricoperto da ogni singolo nodo del flusso mostrato nella figura precedente.
+
+* *Telemetry Data*: è un nodo di tipo network specifico per un flusso MQTT in ingresso. In questo caso il nodo è stato configurato per essere sottoscritto al topic esp32/telemetry_data, riceverà quindi i dati ambientali provenienti dai device esp32-zone-1 e esp32-zone-2.
+* *Filter Message for ESP32 Zone 1|2 Device*: sono due nodi di tipo https://nodered.org/docs/user-guide/nodes#switch[switch] il cui compito è quello di dividere il flusso dei messaggi che contengono i dati ambientali sulla base del device di origine. È possibile fare quest'operazione di filtro perchè la struttura del messaggio JSON dei dati ambientali, contiene l'attributo *deviceName* valorizzato con il nome logico del dispositivo di provenienza. In questo caso i dispositivi sono solo due: esp32-zone-1 e esp32-zone-2.
+* *Split Telemetry Data and Relay Status*: sono due nodi di tipo https://nodered.org/docs/user-guide/nodes#function[function] il cui compito è quello di applicare una funzione Javascript al messaggio d'ingresso per poi restituire ben 7 valori che rappresentano: temperatura, umidità, pressione, stato del relè 0, stato del relè 1, stato del relè 2 e stato del relè 3. È necessario estrapolare ogni singolo valore dal messaggio in formato JSON, perchè ognuno di essi dovrà essere rappresentato in formato grafico (gauge, line chart, text, etc.).
+* *Check Threshold Values*: è un nodo di tipo function il cui compito è quello di verificare che i valori dei dati ambientali rispettino le soglie impostate e prendere le misure adeguate qualora non ci sia questo rispetto. L'azione consiste nell'invio di un messaggio di comando verso il topic esp32/command, questo comando scatenerà poi l'attivazione o la disattivazione del relè.
+* *ESP32* *Command/Relay*: è un nodo di tipo network specifico per un flusso MQTT in uscita. In questo caso il nodo è stato configurato per pubblicare messaggi sul topic esp32/command (con QoS pari a 1).
+* *Dashboard Node*: in questa categoria rientrano tutti quei nodi che mostreranno le informazioni provenienti dal campo sulla dashboard in forma di grafico, testo o pulsanti di azione.
+
+Le immagini a seguire mostrano le configurazioni dei principali nodi del flusso che abbiamo costruito. Una volta che il flusso è stato importato correttamente, possiamo procedere con l'operazione di deploy. Il deploy del flusso avviene cliccando sul pulsante deploy posizionato in alto a destra della GUI di Node-RED.
+
+image::node_red_flow_config_mqtt_broker_1.png[title="Figura 26 - Configurazione parametri di connessione al Message Broker EMQ X Edge"]
+
+Possiamo specificare come nome del server MQTT direttamente il nome del container che abbiamo assegnato a EMQ X Edge in fase di creazione. Questo è possibile farlo in virtù del fatto che sia il Message Broker sia Node-RED sono entrambe parte della rete iot-edge.
+
+image::node_red_flow_config_mqtt_broker_2.png[title="Figura 27 - Configurazione username e password di accesso al Message Broker EMQ X Edge"]
+
+image::node_red_flow_config_mqtt_in_node.png[title="Figura 28 - Configurazione del nodo MQTT In configurato per la sottoscrizione al topic esp32/telemetry_data"]
+
+Possiamo configurare l'output del nodo MQTT In per ottenere direttamente un oggetto JSON, sicuramente più agevole per lavorarci sui nodi successivi del flusso.
+
+image::node_red_flow_config_mqtt_out_node.png[title="Figura 29 - Configurazione del nodo MQTT Out per la pubblicazione dei comandi sul topic esp32/command"]
+
+Sul nodo MQTT Out è stato impostato il QoS a uno per il topic esp32/command senza però attivare il retain che per i nostri scopi non è necessario. La figura a seguire mostra la configurazione del nodo di tipo function Check Threshold Values la cui responsabilità è stata descritta in precedenza. I valori di threshold dei tre parametri ambientali possono essere cambiati sulla base delle proprie necessità come anche le azioni da perseguire. La funzione Javascript alla fine non fa altro che impostare il comando per attivare o disattivare il relè specificato.
+
+image::node_red_flow_config_function_threshold.png[title="Figura 30 - Configurazione del nodo function per il check dei threshold"]
+
+La figura a seguire mostra la configurazione del nodo di tipo function Split Telemetry Data and Relay Status la cui responsabilità è stata descritta in precedenza. La funzione Javascript che vedete, estrae i singoli valori dal messaggio JSON dei dati ambientali ricevuti in ingresso restituendo i valori distinti su output distinti.
+
+image::node_red_flow_config_function_split_data.png[title="Figura 31 - Configurazione del nodo di tipo function che esegue lo split dei valori contenuti sul messaggio dei dati ambientali"]
+
+Una volta che il deploy è stato eseguito senza errori, dovreste vedere sui nodi mqtt (in o out) del flusso, la dicitura connected, questo è un ottimo segno, vuol dire che la connessione verso il Message Broker è avventa con successo. La stessa informazione è comunque riportata sui log di Node-RED a cui è possibile accedere sempre attraverso Docker utilizzando il comando: `+docker logs -f node-red+`.
+
+image::node_red_flow_connection_status_to_mqtt.png[title="Figura 32 - Connessione dei nodi MQTT al Message Broker configurato per il flusso"]
+
+Adesso ci vorrebbe proprio un rullo di tamburi! *Come accediamo alla Dashboard?* Basta puntare il proprio browser all'indirizzo http://$\{IP_GATEWAY_RPI}:1880/ui e dovreste vedere apparire la dashboard cosi come quella mostrata dalle figure a seguire.
+
+image::node_red_dashboard_1.png[title="Figura 33 - MQTT Dashboard Node-RED con la possibilità di selezionare il device d'interesse"]
+
+image::node_red_dashboard_2.png[title="Figura 34 - MQTT Dashboard Node-RED per il ESP32 Device 1"]
+
+<<<
+La dashboard che abbiamo costruito, per ogni device (ESP32 Device 1 e ESP32 Device 2) mostra:
+
+. Un gauge che visualizza le temperatura in gradi centigradi (da 0 a 50);
+. Un gauge che visualizza la percentuale di umidità da (0 a 100);
+. Un grafico a linee che mostra l'andamento della pressione atmosferica nell'ultima ora;
+. La sezione Relay Status da cui è possibile vedere lo stato di ogni relè (se attivo o non attivo) e agire manualmente su di essi per attivare o disattivare.
+
+Cosa ve ne pare di questa dashboard realizzata con Node-RED? Avendo a disposizione il codice del flusso Node-RED, potreste fare tutte le migliorie che ritenete utili per i vostri scopi.

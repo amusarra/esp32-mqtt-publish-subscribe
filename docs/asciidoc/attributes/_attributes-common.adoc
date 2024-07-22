@@ -1,0 +1,20 @@
+:author: Antonio Musarra
+:revnumber: 1.0.0
+:revdate: Luglio 20, 2024
+:email: antonio.musarra@gmail.com
+:description: Come realizzare un progetto IoT con Raspberry, ESP32 e EMQX
+:keywords: raspberry, esp32, c, c++, mqtt
+:encoding: utf-8
+:lang: it
+:toc: left
+:hardbreaks-option:
+:sectnums:
+:sectnumlevels: 3
+:!figure-caption:
+:!table-caption:
+:!command-caption:
+:!chapter-signifier:
+:imagesdir: images
+:source-highlighter: coderay
+:sectanchors: true
+:allow-uri-read: true

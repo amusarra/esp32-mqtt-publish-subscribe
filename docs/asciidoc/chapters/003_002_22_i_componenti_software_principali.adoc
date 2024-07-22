@@ -1,0 +1,14 @@
+=== I componenti software (principali)
+
+Il componente software cardine di questa soluzione è senza ombra di dubbio il Message Broker. Dopo varie ricerche, test e confronti, per quest'architettura ho scelto di utilizzare https://www.emqx.io/products/edge[*EMQ X Edge*] come implementazione dell'MQTT Broker. Questo componente software è quello che risiede all'interno del Gateway.
+
+EMQ X Edge è un MQTT Broker leggero, open source e concesso in licenza con Apache versione 2.0. Implementa le specifiche dei protocolli MQTT V3.1/V3.1.1 e V5.0 e supporta MQTT, TCP, WebSocket e diversi protocolli di settore come https://it.wikipedia.org/wiki/Modbus[ModBus]. Può essere eseguito su diversi tipi di dispositivi edge con risorse limitate, come Raspberry Pi, gateway e server industriali. Può essere utilizzato come ponte tra i terminali locali e il broker remoto. Per eventuali approfondimenti fare riferimento alla documentazione di https://docs.emqx.io/en/edge/latest/[EMQ X Edge] e https://docs.emqx.io/en/enterprise/v4.2/[EMQ X Broker].
+
+Sul progetto GitHub di https://github.com/mqtt/mqtt.org[MQTT.org] e in particolare all'interno della Wiki c'è la https://github.com/mqtt/mqtt.org/wiki/brokers[lista completa dei Broker]. Sul documento https://en.wikipedia.org/wiki/Comparison_of_MQTT_implementations[Comparison of MQTT implementations] sono ampiamente descritte le caratteristiche dei più diffusi software che implementano il protocollo MQTT.
+
+Due documenti che invito a leggere che potrebbero aiutarvi nella scelta del Message Broker più indicato per i vostri progetti sono: https://link.springer.com/chapter/10.1007/978-3-030-58923-3_23[A Comparison of MQTT Brokers for Distributed IoT Edge Computing] (una pubblicazione Springer) e https://ieeexplore.ieee.org/document/9016528[Edge Based MQTT Broker Architecture for Geographical IoT Applications] (una pubblicazione di IEEE).
+
+<<<
+Per visualizzare i dati ambientali raccolti dai sensori, ho deciso d'utilizzare https://nodered.org/[*Node-RED*], uno strumento di facile utilizzo e perfetto per questo genere di applicazioni.
+
+Alla lista non mancano certamente i "pezzi" software che dovremo sviluppare e in particolare il software che andrà poi "flashato" sull'MCU che in questo caso è l'ESP32. Questo software è sostanzialmente responsabile della lettura dei dati ambientali e successiva trasmissione di questi al Gateway tramite il protocollo MQTT.

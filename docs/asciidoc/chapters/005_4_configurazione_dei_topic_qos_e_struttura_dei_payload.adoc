@@ -1,0 +1,170 @@
+<<<
+== Configurazione dei topic, QoS e struttura dei payload
+
+Affinché la nostra soluzione funzioni, quindi, che i vari componenti che fanno parte dell'architettura colloquino tra loro, è necessario configurare gli opportuni topic sul Message Broker. *Quali sono i topic di cui abbiamo bisogno?*
+
+Per questa soluzione esistono tre tipi di topic per tre diversi scopi:
+
+. il topic su cui ogni device pubblicherà i dati ambientali provenienti dai sensori BME280. Il nome di questo topic sarà *esp32/telemetry_data*;
+. i topic su cui ogni device pubblicherà lo stato di ogni relè. In questo caso avremo quattro diversi topic dove pubblicare lo stato di ogni relè
+.. esp32/relay_00_status
+.. esp32/relay_01_status
+.. esp32/relay_02_status
+.. esp32/relay_03_status
+. il topic destinato a recepire i comandi necessari per l'attivazione o disattivazione dei relè connessi ai device o per ricevere lo stato degli stessi. Il nome di questo topic sarà *esp32/command*.
+
+=== Topic esp32/command
+Topic per la ricezione dei comandi che dovranno essere eseguiti sui device. Questi comandi consentono di attivare o disattivare i relè connessi al device o di richiedere lo stato dei relè.
+
+Il comando è costituito da una stringa di testo con un formato prestabilito all'interno della quale sono contenute le informazioni circa: nome del device, entità, identificativo dell'entità, comando.
+
+. I publisher di questo topic sono: dashboard, mobile phone o altro dispositivo adibito al comando.
+. I subscriber di questo topic sono: i device (esp32-zone-1 e esp32-zone-2).
+. Il QoS di questo topic è 1.
+
+<<<
+=== Topic esp32/telemetry_data
+Topic su cui ogni device pubblicherà i dati ambientali provenienti dai sensori BME280. Ogni messaggio pubblicato conterrà le seguenti informazioni:
+
+. *clientId*: Identificativo univoco di ogni device connesso alla rete e di conseguenza al Message Broker;
+. *deviceName*: nome logico assegnato al dispositivo (esempio: esp32-zone-1);
+. *time*: timestamp della lettura dei valori ambientali;
+. *temperature*, *humidity*, *pressure*: valori delle misure dei rispettivi parametri ambientali;
+. *interval*: intervallo delle letture in ms (millisecondi);
+. *counter*: numero della lettura;
+. *relaysStatus*: array contenente le informazioni circa lo stato dei relè collegati al device (ESP32).
+
+Il formato del payload del messaggio è JSON.
+
+. I publisher di questo topic sono: i device (esp32-zone-1 e esp32-zone-2).
+. I subscriber di questo topic sono: dashboard, mobile phone o altro dispositivo (o generico client).
+. Il QoS di questo topic è 0.
+
+<<<
+=== Topic esp32/releay_${id}_status
+Topic su cui ogni device pubblicherà lo stato di ogni relè connesso. Ogni cambiamento di stato, dovuto per esempio all'invio di un comando, comporterà la pubblicazione su questo topic dell'avvenuto cambio di stato.
+
+Ogni messaggio pubblicato conterrà le seguenti informazioni:
+
+. *clientId*: Identificativo univoco di ogni device connesso alla rete e di conseguenza al Message Broker;
+. *deviceName*: nome logico assegnato al dispositivo (esempio: esp32-zone-1);
+. *time*: timestamp della lettura dei valori ambientali;
+. *relayId*: identificativo del relè. I valori ammessi sono nel range 0-3, questo perchè i relè sono quattro per ogni device;
+. *status*: valore intero che indica lo stato del relè. 0 se non attivo 1 se attivo.
+
+Il formato del payload del messaggio è JSON.
+
+. I publisher di questo topic sono: i device (esp32-zone-1 e esp32-zone-2).
+. I subscriber di questo topic sono: dashboard, mobile phone o altro dispositivo (o generico client).
+. Il QoS di questo topic è 1.
+
+=== Qualche nota sul QoS
+Ad ogni topic è stato assegnato il *Quality of Service* (o QoS). *Cosa indica la Quality of Service (o la qualità del servizio)?*
+
+Il livello di QoS è un accordo esplicito tra il mittente di un messaggio e il destinatario di un messaggio che definisce la garanzia di consegna per un messaggio specifico. Ci sono 3 livelli di QoS in MQTT:
+
+. _At most once (o Al massimo una volta)_ = 0
+. _At least once_ (o Almeno una volta) = 1
+. _Exactly once_ ( o Esattamente una volta) = 2.
+
+Quando parliamo di QoS in MQTT, occorre considerare i due lati della consegna del messaggio:
+
+. Consegna dei messaggi dal client di pubblicazione (publisher) al broker.
+. Consegna del messaggio dal broker al client di sottoscrizione (subscriber).
+
+<<<
+Esamineremo separatamente i due lati della consegna del messaggio perché ci sono sottili differenze tra i due. Il client che pubblica il messaggio sul broker definisce il livello QoS del messaggio quando invia il messaggio al broker. Il broker trasmette questo messaggio ai client di sottoscrizione utilizzando il livello QoS definito da ciascun client di sottoscrizione durante il processo di sottoscrizione. *Se il client di sottoscrizione definisce un QoS inferiore rispetto al client di pubblicazione, il broker trasmette il messaggio con la qualità del servizio inferiore*.
+
+QoS è una caratteristica chiave del protocollo MQTT. QoS offre al client la possibilità di scegliere un livello di servizio che corrisponda alla sua affidabilità di rete e alla logica dell'applicazione. Poiché MQTT gestisce la ritrasmissione dei messaggi e garantisce la consegna (anche quando il trasporto sottostante non è affidabile), QoS semplifica notevolmente la comunicazione nelle reti inaffidabili.
+
+Per i messaggi del topic esp32/telemetry_data possiamo benissimo decidere di adottare un QoS 0 (livello minimo). Questo livello di servizio garantisce una consegna con il massimo impegno. Non c'è garanzia di consegna. Il destinatario non conferma la ricezione del messaggio e il messaggio non viene archiviato e ritrasmesso dal mittente. Il livello QoS 0 è spesso chiamato *"fire and forget o spara e dimentica"* e fornisce la stessa garanzia del protocollo TCP sottostante.
+La scelta di questo QoS è dettata dal fatto che la perdita di qualche messaggio non è critica per il tipo di applicazione, considerando anche che la pubblicazione dei dati avviene a intervalli regolari e frequenti, inoltre non abbiamo la necessità di accodare i messaggi per i client disconnessi.
+
+Per i messaggi del topic esp32/command e esp32/releay_$\{id}_status dovremmo scegliere il QoS 1. Questo livello di servizio garantisce che un messaggio venga recapitato almeno una volta al destinatario. Il mittente memorizza il messaggio fino a quando non riceve un pacchetto PUBACK dal destinatario che conferma la ricezione del messaggio. È possibile che un messaggio venga inviato o consegnato più volte.
+La scelta di questo QoS è dettata dall'importanza di ricevere (almeno una volta) sia i messaggi che contengono i comandi per i nostri attuatori sia i messaggi che contengono lo stato dei nostri attuatori (i relè). L'eventualità di messaggi duplicati non rappresenta un problema per la nostra applicazione.
+
+Il livello QoS 2 non è utilizzato dalla nostra soluzione perchè non è necessario un livello di servizio così elevato come quello offerto dal livello 2. Adottare questo livello di servizio quando è fondamentale per la tua applicazione ricevere tutti i messaggi esattamente una volta. Questo è spesso il caso se una consegna duplicata può danneggiare gli utenti dell'applicazione o i client in sottoscrizione. Bisogna quindi essere consapevoli del sovraccarico e che l'interazione QoS 2 richiede più tempo per essere completata.
+
+<<<
+=== Struttura dei payload
+A seguire sono mostrate le tre strutture dei payload per i messaggi dei topic descritti nella precedente tabella.
+
+.Tabella 4 - Struttura dei messaggi MQTT utilizzati dalla soluzione IoT
+[width="100%",cols="30%,15%,60%",]
+|===
+|*Topic* |*Tipo formato* |*Formato/Esempio*
+
+|esp32/command |Stringa formattata a|
+Formato:
+
+`$\{device-name}:$\{entity};$\{relay-id};\{off\|on\|status}`
+
+Esempi:
+
+. Comando per attivare il relè 1 del device chiamato esp32-zone-1: `esp32-zone-1:relay;1;off`
+. Comando per disattivare il relè 0 del device chiamato esp32-zone-2: `esp32-zone-2:relay;0;on`
+. Comando per richiedere lo stato del relè 1 del device chiamato esp32-zone-1: `esp32-zone-1:relay;1;status`
+
+|esp32/telemetry_data |JSON |Vedi Payload 1
+
+|esp32/releay_$\{id}_status |JSON |Vedi Payload 2
+|===
+
+<<<
+[source,json,title="Payload 1 - Esempio payload per il topic esp32/telemetry_data"]
+----
+{
+    "clientId": "esp32-client-11fa",
+    "deviceName": "esp32-zone-1",
+    "time": 1618223579,
+    "temperature": 19.49,
+    "humidity": 39.67969,
+    "pressure": 93904,
+    "interval": 5000,
+    "counter": 1,
+    "relaysStatus": [
+        0,
+        0,
+        0,
+        0
+    ]
+}
+----
+
+[source,json,title="Payload 2 - Esempio payload per il topic esp32/telemetry_data"]
+----
+{
+    "clientId": "esp32-client-2c2a",
+    "deviceName": "esp32-zone-1",
+    "time": 1618225166,
+    "relayId": 3,
+    "status": 0
+}
+----
+
+
+Le immagini a seguire mostrano alcuni dei messaggi MQTT gestiti dalla nostra soluzione. Dai messaggi MQTT, oltre a vedere il messaggio (codificato), è possibile notare le varie caratteristiche, quali per esempio il QoS, il retain, il topic, etc. Per il topic esp32/command è possibile notare il QoS pari a 1. Le informazioni sono state estratte catturando il traffico di rete direttamente dal Gateway (il Raspberry Pi) tramite il tool https://www.wireshark.org/docs/man-pages/tshark.html[tshark].
+
+image::tshark_capture_mqtt_packet_topic_telemetry_data.png[title="Figura 12 - Cattura dei pacchetti MQTT pubblicati sul topic esp32/telemetry_data dai device ESP32"]
+
+image::tshark_capture_mqtt_packet_topic_command.png[title="Figura 13 - Cattura dei pacchetti MQTT pubblicati sul topic esp32/command dalla Dashboard Node-RED"]
+
+Per catturare il traffico MQTT che riguarda i messaggi pubblicati sul topic esp32/telemetry_data dai due dispositivi, è sufficiente utilizzare il comando mostrato a seguire.
+
+[source,bash,title="Console 3 - Catturare il traffico MQTT del topic esp32/telemetry_data"]
+----
+# Cattura del traffico tramite tshark verso il topic esp32/telemetry_data
+sudo tshark -i wlan0 -f "src 192.168.1.125 || 192.168.1.126" -Y 'mqtt.topic == "esp32/telemetry_data"' -T json
+----
+
+Per catturare il traffico MQTT che riguarda i messaggi pubblicati sul topic esp32/command dalla dashboard, è sufficiente utilizzare il comando:
+
+[source,bash,title="Console 4 - Catturare il traffico MQTT del topic esp32/command"]
+----
+# Cattura del traffico tramite tshark verso il topic esp32/command
+sudo tshark -i wlan0 -f "dst 192.168.1.125 || 192.168.1.126" -Y 'mqtt.topic == "esp32/command"' -T json
+----
+
+Ovviamente gli indirizzi IP possono variare, di conseguenza i comandi mostrati in precedenza devono essere revisionati.
+
+Dopo aver chiarito il ruolo dei topic e la struttura dei messaggi per questa soluzione, possiamo mettere le mani in pasta al codice iniziando dal software che bisogna realizzare per l'ESP32.

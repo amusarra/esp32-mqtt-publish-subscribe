@@ -1,0 +1,15 @@
+<<<
+== Risorse
+
+Come di consueto lascio una serie di risorse che ritengo utili ai fini dell'approfondimento degli argomenti trattati nel corso di questo articolo.
+
+[.text-left]
+* Attuatori per maker - https://amzn.to/3slHmE9
+* Raspberry Pi. La guida completa - https://amzn.to/2RpYZWh
+* Electronics Projects With the ESP8266 and ESP32 - https://amzn.to/3gixAQP
+* Docker: Sviluppare e rilasciare software tramite container - https://amzn.to/3tiyO1W di https://www.linkedin.com/in/serena-sensini/[Serena Sensini]
+* Valutiamo se continuare a usare Docker o passare a Podman - https://theredcode.it/devops/cos-e-podman/
+* Pillole di Docker - https://www.youtube.com/watch?v=wAyUdtQF05w di https://www.linkedin.com/in/mauro-cicolella-0b107076/[Mauro Cicolella]
+* Raspberry PI GPIO – Tutti i segreti del pinout - https://www.moreware.org/wp/blog/2021/04/09/raspberry-pi-gpio-tutti-i-segreti-del-pinout/
+* Renzo Mischianti - A blog of digital electronics and programming - https://www.mischianti.org/
+* Practical Node-RED Programming - https://www.packtpub.com/product/practical-node-red-programming/9781800201590

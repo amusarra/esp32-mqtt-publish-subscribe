@@ -1,0 +1,11 @@
+== Introduzione
+
+Così come per realizzare un buon piatto abbiamo bisogno dei giusti ingredienti, anche per costruire un buon progetto hardware e software, è importante combinare in modo adeguato i vari elementi.
+
+Con l'avvento dell'https://en.wikipedia.org/wiki/Internet_of_things[*Internet OfThings*] (o *IoT*), il numero di dispositivi e delle apparecchiature connesse alla rete sta aumentando in maniera vertiginosa, basti pensare ai sensori per le automobili, elettrodomestici, telecamere o anche quelli utilizzati per il rilevamento dei parametri vitali.
+
+Ormai l'acronimo IoT e il suo significato sta entrando sempre di più nell'uso comune e con questo articolo propongo lo sviluppo base di un progetto completo dal punto di vista hardware e software che implementa una delle più classiche necessità del mondo IoT, ovvero, acquisire dati da sensori distribuiti in campo, elaborare questi dati localmente e poi eventualmente distribuire quest'ultimi nel cloud.
+
+Per lo sviluppo del progetto è necessario toccare un numero considerevole di argomenti e cercherò di trattarli tutti con il giusto livello di profondità. Darò per scontato che abbiate la conoscenza di alcuni di essi, in caso contrario l'articolo assumerebbe delle dimensioni considerevoli. Mi impegnerò a lasciare tutti i riferimenti utili per ogni vostro approfondimento.
+
+A questo punto direi d'iniziare, mettervi comodi e munitevi della giusta concentrazione perché la lettura di questo articolo sarà abbastanza impegnativa ma spero interessante.

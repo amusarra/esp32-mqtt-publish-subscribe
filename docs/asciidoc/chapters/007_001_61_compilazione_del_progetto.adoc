@@ -1,0 +1,79 @@
+=== Compilazione del progetto
+
+La compilazione del progetto è abbastanza semplice e proprio come piace a me: *git clone e build*. Ricordo che prima di proseguire oltre, il requisito richiesto è l'installazione di PlatformIO Core sulla vostra macchina di sviluppo.
+
+Fino a questo momento non abbiamo fatto nessun riferimento a come configurare i parametri di accesso alla rete WiFi e al Message Broker. *Cosa bisogna fare per configurare i parametri di accesso alla rete WiFi e il Message Broker?*
+
+In questi casi solitamente preferisco perseguire la strada dei https://docs.platformio.org/en/latest/projectconf/section_env_build.html#id2[build flags]. Questi flag influenzano i processi del pre-processore, compilazione, assemblaggio e collegamento per il codice C e C++. È possibile utilizzare tutti i flag del compilatore e del linker. In questo caso utilizzeremo il build flag *-D name=definition* che influisce sulla variabile di build *CPPDEFINES*. I contenuti della definizione (definition) vengono tokenizzati ed elaborati come se fossero apparsi durante la terza fase di traduzione in una direttiva #define. Per maggiori informazioni invito al leggere https://en.wikipedia.org/wiki/C_preprocessor[*C preprocessor*].
+
+All'inizio del codice sorgente https://github.com/amusarra/esp32-mqtt-publish-subscribe/blob/master/src/esp32_mqtt_publish_subscribe.cpp#L38[esp32_mqtt_publish_subscribe.cpp] ci sono le varie sezione *ifdef...endif* per la lettura di tutti i build flag. A seguire sono mostrati i build flag definiti sul file https://github.com/amusarra/esp32-mqtt-publish-subscribe/blob/master/platformio.ini#L24[platformio.ini] del progetto. Tra i build flag, oltre a quelli che riguardano i parametri di accesso alla rete WiFi e al Message Broker, abbiamo anche un parametro di build che imposta il nome del device. Da notare che i valori di questi parametri provengono dalle relative variabili di ambiente.
+
+[source,ini,title="Configurazione 1 - Configurazione di PlatformIO"]
+----
+[env:esp32dev]
+platform = espressif32 <1>
+board = esp32dev <2>
+framework = arduino <3>
+build_flags = <4>
+  -DWIFI_SSID=${sysenv.WIFI_SSID}
+  -DWIFI_PASSWORD=${sysenv.WIFI_PASSWORD}
+  -DMQTT_USERNAME=${sysenv.MQTT_USERNAME}
+  -DMQTT_PASSWORD=${sysenv.MQTT_PASSWORD}
+  -DMQTT_SERVER=${sysenv.MQTT_SERVER}
+  -DMQTT_PORT=${sysenv.MQTT_PORT}
+  -DDEVICE_NAME=${sysenv.DEVICE_NAME}
+----
+<1> Specifica la piattaforma di destinazione
+<2> Specifica il tipo di board
+<3> Specifica il framework
+<4> Specifica quali flag usare per la build del progetto
+
+Prima di proseguire con il processo di compilazione, occorre quindi impostare le variabili di ambiente sopra indicate. Dato che abbiamo due device su cui installare il software, facciamo attenzione a modificare la variabile di ambiente *DEVICE_NAME*. Questa variabile di ambiente può assumere i seguenti valori: esp32-zone-1 e esp32-zone-2. L'informazione sul device name è riportata sul messaggio JSON che contiene i dati ambientali.
+
+A seguire sono indicati i comandi necessari per portare a buon fine la compilazione del progetto e generare così l'artefatto (*firmware.bin*) che andrà successivamente installato sul device ESP32.
+
+<<<
+[source,bash,title="Console 3 - Procedura per la compilazione del progetto e generazione firmware"]
+----
+# Export Environment Variables
+export WIFI_SSID="your-wifi-ssid"
+export WIFI_PASSWORD="your-wifi-access-password"
+
+# Username e password defined and created
+# in the previous step (EMQ X Edge Install)
+export MQTT_USERNAME="esp32-device"
+export MQTT_PASSWORD="esp32-device"
+export MQTT_SERVER="your-ip-address-of-mqtt-broker"
+export MQTT_PORT="1883"
+
+# Export Device Name
+export DEVICE_NAME="esp32-zone-1"
+
+# Check version of the PlatformIO Core
+pio --version
+
+# Update installed platforms, packages and libraries
+pio update
+
+# Upgrade PlatformIO to the latest version
+pio upgrade
+
+# Clone Project from GitHub esp32-mqtt-publish-subscribe
+git clone https://github.com/amusarra/esp32-mqtt-publish-subscribe.git
+
+# Build Project
+cd esp32-mqtt-publish-subscribe
+pio run --environment esp32dev
+----
+
+Durante il processo di build, PlatformIO scarica anche le librerie da cui il progetto dipende e che sono indicate nella sezione https://github.com/amusarra/esp32-mqtt-publish-subscribe/blob/master/platformio.ini#L33[*lib_deps*] del file platformio.ini (vedi anche Tabella 5).
+
+A seguire è mostrato lo screencast di https://asciinema.org/a/406054?autoplay=1[Compiling the ESP32 MQTT Publish/Subscribe project with PlatformIO] in modo che possiate vedere esattamente l'esecuzione degli step indicati in precedenza.
+
+image::406054.svg[title="Screencast 3 - Compiling the ESP32 MQTT Publish/Subscribe project with PlatformIO",link="https://asciinema.org/a/406054?autoplay=1"]
+
+Nel caso in cui installiate o abbiate già installato PlatformIO per VSCode, le stesse operazioni di compilazione del progetto posso essere portate a termine anche dall'IDE, così come mostrato dalla figura a seguire.
+
+image::platformio_build_esp32_project.png[title="Figura 14 - PlatformIO IDE per VSCode"]
+
+Una volta accertato che la compilazione del progetto sia andata a buona fine, possiamo passare alla fase di upload del software sui due device ESP32.

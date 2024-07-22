@@ -1,0 +1,292 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1474.08333275" height="821.3331280000001" font-family="Consolas, Menlo, 'Bitstream Vera Sans Mono', monospace, 'Powerline Symbols'" font-size="14px">
+  <style>
+    .br { font-weight: bold }
+    .fa { fill-opacity: 0.5 }
+    .it { font-style: italic }
+    .un { text-decoration: underline }
+  </style>
+
+  <rect width="100%" height="100%" style="fill: #121314" rx="4" ry="4"></rect>
+
+  <svg x="8.42333333" y="9.333331000000001" class="default-text-fill">
+    <g style="shape-rendering: optimizeSpeed">
+
+        <rect x="0.0" y="765.3331420000001" width="8.42333333" height="18.666662000000002" style="fill: #d9d9d9"></rect>
+
+
+    </g>
+
+    <text style="fill: #cccccc">
+      <tspan y="0.0">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="210.58333325">
+$ cd rpi-mqtt-topic-subscribe/
+        </tspan>
+      </tspan><tspan y="18.666662000000002">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~/rpi-mqtt-topic-subscribe
+        </tspan><tspan x="421.1666665">
+$ ls -lrt
+        </tspan>
+      </tspan><tspan y="37.333324000000005">
+        <tspan dy="1em" x="0.0">
+total 32
+        </tspan>
+      </tspan><tspan y="55.99998600000001">
+        <tspan dy="1em" x="0.0">
+-rwxrwxr-x 1 amusarra amusarra 6413 Apr 12 16:39 
+        </tspan><tspan x="412.74333317" class="br" style="fill: #4ebf22">
+mqtt_topic_subscribe_display_lcd.py
+        </tspan>
+      </tspan><tspan y="74.66664800000001">
+        <tspan dy="1em" x="0.0">
+-rw-rw-r-- 1 amusarra amusarra
+        </tspan><tspan x="277.96999989">
+44 Apr 12 16:39 README.markdown
+        </tspan>
+      </tspan><tspan y="93.33331000000001">
+        <tspan dy="1em" x="0.0">
+-rw-rw-r-- 1 amusarra amusarra 2463 Apr 12 16:39 PCF8574.py
+        </tspan>
+      </tspan><tspan y="111.99997200000001">
+        <tspan dy="1em" x="0.0">
+-rw-rw-r-- 1 amusarra amusarra 1142 Apr 12 16:39 LICENSE.markdown
+        </tspan>
+      </tspan><tspan y="130.66663400000002">
+        <tspan dy="1em" x="0.0">
+-rw-rw-r-- 1 amusarra amusarra
+        </tspan><tspan x="269.54666656">
+296 Apr 12 16:39 CHANGELOG.markdown
+        </tspan>
+      </tspan><tspan y="149.33329600000002">
+        <tspan dy="1em" x="0.0">
+-rw-rw-r-- 1 amusarra amusarra 7511 Apr 12 16:39 Adafruit_LCD1602.py
+        </tspan>
+      </tspan><tspan y="167.99995800000002">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~/rpi-mqtt-topic-subscribe
+        </tspan><tspan x="421.1666665">
+$ ./mqtt_topic_subscribe_display_lcd.py -s localhost -p 1883 -u gw-rpi4-device -P gw-rpi4-device
+        </tspan>
+      </tspan><tspan y="186.66662000000002">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,135 :: INFO :: &lt;module&gt; :: 219
+        </tspan><tspan x="463.28333315000003">
+:: Raspberry Pi MQTT Subscriber is starting...
+        </tspan>
+      </tspan><tspan y="205.33328200000003">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,317 :: INFO :: on_log :: 88
+        </tspan><tspan x="438.01333316">
+:: Sending CONNECT (u1, p1, wr0, wq0, wf0, c1, k60) client_id=b&#39;amusarra-pi-4b-5758eb18-7571-4b3e-9da1-16569323b5be&#39;
+        </tspan>
+      </tspan><tspan y="223.99994400000003">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,320 :: INFO :: on_log :: 88
+        </tspan><tspan x="438.01333316">
+:: Received CONNACK (0, 0)
+        </tspan>
+      </tspan><tspan y="242.66660600000003">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,321 :: INFO :: on_connect :: 93
+        </tspan><tspan x="471.70666648">
+:: Connected to MQTT broker (RC: 0)
+        </tspan>
+      </tspan><tspan y="261.33326800000003">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,321 :: INFO :: on_log :: 88
+        </tspan><tspan x="438.01333316">
+:: Sending SUBSCRIBE (d0, m1) [(b&#39;esp32/telemetry_data&#39;, 0)]
+        </tspan>
+      </tspan><tspan y="279.99993">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,322 :: INFO :: on_log :: 88
+        </tspan><tspan x="438.01333316">
+:: Sending SUBSCRIBE (d0, m2) [(b&#39;esp32/relay_00_status&#39;, 1)]
+        </tspan>
+      </tspan><tspan y="298.66659200000004">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,322 :: INFO :: on_log :: 88
+        </tspan><tspan x="438.01333316">
+:: Sending SUBSCRIBE (d0, m3) [(b&#39;esp32/relay_01_status&#39;, 1)]
+        </tspan>
+      </tspan><tspan y="317.333254">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,322 :: INFO :: on_log :: 88
+        </tspan><tspan x="438.01333316">
+:: Sending SUBSCRIBE (d0, m4) [(b&#39;esp32/relay_02_status&#39;, 1)]
+        </tspan>
+      </tspan><tspan y="335.99991600000004">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,323 :: INFO :: on_log :: 88
+        </tspan><tspan x="438.01333316">
+:: Sending SUBSCRIBE (d0, m5) [(b&#39;esp32/relay_03_status&#39;, 1)]
+        </tspan>
+      </tspan><tspan y="354.666578">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,325 :: INFO :: on_log :: 88
+        </tspan><tspan x="438.01333316">
+:: Received SUBACK
+        </tspan>
+      </tspan><tspan y="373.33324000000005">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,326 :: INFO :: on_subscribe :: 84
+        </tspan><tspan x="488.55333314">
+:: Data subscribe (Mid: 1)
+        </tspan>
+      </tspan><tspan y="391.999902">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,326 :: INFO :: on_log :: 88
+        </tspan><tspan x="438.01333316">
+:: Received SUBACK
+        </tspan>
+      </tspan><tspan y="410.66656400000005">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,326 :: INFO :: on_subscribe :: 84
+        </tspan><tspan x="488.55333314">
+:: Data subscribe (Mid: 2)
+        </tspan>
+      </tspan><tspan y="429.333226">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,327 :: INFO :: on_log :: 88
+        </tspan><tspan x="438.01333316">
+:: Received SUBACK
+        </tspan>
+      </tspan><tspan y="447.99988800000006">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,327 :: INFO :: on_subscribe :: 84
+        </tspan><tspan x="488.55333314">
+:: Data subscribe (Mid: 3)
+        </tspan>
+      </tspan><tspan y="466.66655000000003">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,327 :: INFO :: on_log :: 88
+        </tspan><tspan x="438.01333316">
+:: Received SUBACK
+        </tspan>
+      </tspan><tspan y="485.33321200000006">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,328 :: INFO :: on_subscribe :: 84
+        </tspan><tspan x="488.55333314">
+:: Data subscribe (Mid: 4)
+        </tspan>
+      </tspan><tspan y="503.99987400000003">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,328 :: INFO :: on_log :: 88
+        </tspan><tspan x="438.01333316">
+:: Received SUBACK
+        </tspan>
+      </tspan><tspan y="522.6665360000001">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,328 :: INFO :: on_subscribe :: 84
+        </tspan><tspan x="488.55333314">
+:: Data subscribe (Mid: 5)
+        </tspan>
+      </tspan><tspan y="541.333198">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,753 :: INFO :: on_log :: 88
+        </tspan><tspan x="438.01333316">
+:: Received PUBLISH (d0, q0, r0, m0), &#39;esp32/telemetry_data&#39;, ...
+        </tspan><tspan x="1002.37666627">
+(190 bytes)
+        </tspan>
+      </tspan><tspan y="559.99986">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,753 :: INFO :: on_message :: 120
+        </tspan><tspan x="480.12999981">
+:: message received {&quot;clientId&quot;:&quot;esp32-client-2c2a&quot;,&quot;deviceName&quot;:&quot;esp32-zone-1&quot;,&quot;time&quot;:1618245573,&quot;temperature&quot;:20.2
+        </tspan>
+      </tspan><tspan y="578.6665220000001">
+        <tspan dy="1em" x="0.0">
+,&quot;humidity&quot;:39.62988,&quot;pressure&quot;:93699,&quot;interval&quot;:5000,&quot;counter&quot;:4077,&quot;relaysStatus&quot;:[0,0,1,0]}
+        </tspan>
+      </tspan><tspan y="597.3331840000001">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,754 :: INFO :: on_message :: 121
+        </tspan><tspan x="480.12999981">
+:: message topic=esp32/telemetry_data
+        </tspan>
+      </tspan><tspan y="615.999846">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,754 :: INFO :: on_message :: 122
+        </tspan><tspan x="480.12999981">
+:: message qos=0
+        </tspan>
+      </tspan><tspan y="634.666508">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:33,755 :: INFO :: on_message :: 123
+        </tspan><tspan x="480.12999981">
+:: message retain flag=0
+        </tspan>
+      </tspan><tspan y="653.33317">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:35,916 :: INFO :: on_log :: 88
+        </tspan><tspan x="438.01333316">
+:: Received PUBLISH (d0, q0, r0, m0), &#39;esp32/telemetry_data&#39;, ...
+        </tspan><tspan x="1002.37666627">
+(191 bytes)
+        </tspan>
+      </tspan><tspan y="671.9998320000001">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:35,916 :: INFO :: on_message :: 120
+        </tspan><tspan x="480.12999981">
+:: message received {&quot;clientId&quot;:&quot;esp32-client-e770&quot;,&quot;deviceName&quot;:&quot;esp32-zone-2&quot;,&quot;time&quot;:1618245574,&quot;temperature&quot;:20.1
+        </tspan>
+      </tspan><tspan y="690.6664940000001">
+        <tspan dy="1em" x="0.0">
+2,&quot;humidity&quot;:40.39063,&quot;pressure&quot;:93731,&quot;interval&quot;:5000,&quot;counter&quot;:4101,&quot;relaysStatus&quot;:[0,0,1,1]}
+        </tspan>
+      </tspan><tspan y="709.333156">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:35,917 :: INFO :: on_message :: 121
+        </tspan><tspan x="480.12999981">
+:: message topic=esp32/telemetry_data
+        </tspan>
+      </tspan><tspan y="727.999818">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:35,917 :: INFO :: on_message :: 122
+        </tspan><tspan x="480.12999981">
+:: message qos=0
+        </tspan>
+      </tspan><tspan y="746.6664800000001">
+        <tspan dy="1em" x="0.0">
+2021-04-12 16:39:35,917 :: INFO :: on_message :: 123
+        </tspan><tspan x="480.12999981">
+:: message retain flag=0
+        </tspan>
+      </tspan>
+    </text>
+  </svg>
+
+  <g transform="translate(-40 -40)">
+    <svg x="50%" y="50%" width="80" height="80">
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000.0 1000.0" style="filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.4))">
+  <defs>
+    <mask id="small-triangle-mask">
+      <rect width="100%" height="100%" fill="white"></rect>
+      <polygon points="700.0 500.0, 400.00000000000006 326.7949192431122, 399.9999999999999 673.2050807568877" fill="black">
+      </polygon>
+    </mask>
+  </defs>
+  <polygon points="1000.0 500.0, 250.0000000000001 66.98729810778059, 249.99999999999977 933.0127018922192" mask="url(#small-triangle-mask)" fill="white">
+  </polygon>
+  <polyline points="673.2050807568878 400.0, 326.7949192431123 600.0" stroke="white" stroke-width="90">
+  </polyline>
+</svg>
+    </svg>
+  </g>
+</svg>

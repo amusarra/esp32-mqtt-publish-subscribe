@@ -1,0 +1,49 @@
+<<<
+== Descrizione della soluzione IoT
+
+Lo schema generale di un sistema IoT prevede gli elementi brevemente descritti e indicati ad seguire.
+
+* *Producer*: normalmente rappresentati da sensori o device. Questi devono essere connessi al resto del sistema utilizzando protocolli standard come HTTP, https://tools.ietf.org/html/rfc7252[*CoAP*] (Constrained Application Protocol), https://it.wikipedia.org/wiki/MQTT[*MQTT*] (Message Queuing Telemetry
+Transport) e https://it.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol[*AMQP*] (Advanced Message Queuing Protocol).
+* *Gateway*:
+** deve acquisire i dati che provengono dai sensori o dai device; deve quindi *"parlare"* la stessa lingua di quest'ultimi;
+** deve essere capace di acquisire un grande volume di dati in tempo reale;
+** deve filtrare i dati *"cattivi"*, per esempio provenienti da sensori rotti;
+** deve se richiesto arricchire i dati (data enriching) e trasformarli;
+** deve controllare l'identità dei dati per accertarsi che effettivamente siano di sua competenza;
+** deve essere capace di riconoscere dati duplicati.
+* *Processing*:
+** è il cuore di una soluzione IoT;
+** i dati provenienti dai producer attraverso il loro gateway devono essere elaborati e in molti casi in tempo reale;
+** il software di elaborazione deve fornire un set di API per eseguire pulizia, aggregazione, combinazione, analisi in tempo reale, etc.
+* *Storage* (ulteriore elaborazione):
+** i dati elaborati vengono archiviati per la presentazione (su dashboard) o ulteriori elaborazioni come analisi batch da parte di analista di dati, apprendimento automatico, indicizzazione, etc.;
+** i requisiti chiave sono l'archiviazione di grandi volumi di dati e la fornitura di un throughput elevato. In generale, i dati vengono archiviati in grandi database distribuiti e utilizzati da strumenti di elaborazione batch.
+
+In questo eBook vi mostrerò una soluzione molto ridimensionata (rispetto a quanto sopra descritto) ma che comunque toccherà le basi di un sistema IoT. Per restare in un ambito più familiare, prendiamo in considerazione il classico scenario della stazione meteorologica.
+
+<<<
+In campo abbiamo disseminato alcuni sensori che acquisiscono dati ambientali come temperatura, umidità e pressione atmosferica. Questi sensori sono connessi a un https://it.wikipedia.org/wiki/Microcontrollore[microcontrollore] (o *MCU* che sta per Micro Controller Unit), responsabile della lettura dei valori ambientali e del successivo invio di questi al *Gateway*. All'MCU sono inoltre collegati degli attuatori che possono essere azionati per esempio nel momento in cui viene superata la soglia impostata su uno o più dei parametri ambientali.
+
+Il diagramma a seguire mostra il flusso delle informazioni che parte dal sensore fino ad arrivare alla dashboard, dove questi dati saranno visualizzati. https://en.wikipedia.org/wiki/Sensor[Environmental Sensors] e MCU, insieme costituisco il device, ovvero, il *Producer*.
+
+Com'è possibile vedere dal diagramma, il Gateway è in grado d'inviare un comando verso il device (step 5) con lo scopo di scatenare un'azione sull'attuatore connesso all'MCU. *Questo flusso d'informazioni come fa ad arrivare fino alla Dashboard?*
+
+image::iot-sensors-information-flow.jpg[title="Figura 1 - Flusso dei dati della soluzione IoT proposta"]
+
+In un sistema IoT, Producer e Gateway *devono parlare la stessa lingua e nel caso della nostra soluzione la lingua adottata è il protocollo MQTT*. Grazie a questo protocollo che i vari componenti sono in grado di colloquiare tra loro, Dashboard compresa. L'adozione di questo protocollo implica che la soluzione adotti quello che viene chiamato generalmente *MQTT Message Broker*. Questo è un componente software centrale che all'interno di un sistema IoT risiede generalmente all'interno del Gateway.
+
+Il Message Broker e nel caso specifico l'MQTT Broker, utilizza lo stile architetturale chiamato generalmente *Publish/Subscribe*. Cerchiamo di comprendere le basi di questo modello. Nel pattern di Publish/Subscribe, un client che pubblica un messaggio viene disaccoppiato dall'altro client o client che ricevono il messaggio. I client non sanno dell'esistenza degli altri client. Un client può pubblicare messaggi di un tipo specifico e solo i client interessati a tipi specifici di messaggi riceveranno i messaggi pubblicati.
+
+<<<
+Tutti i client stabiliscono una connessione con il broker. Il client che invia un messaggio tramite il broker è noto come *publisher*. Il broker filtra i messaggi in arrivo e li distribuisce ai client interessati al tipo di messaggi ricevuti. I client che si registrano al broker come interessati a tipi specifici di messaggi sono noti come *subscriber*. Pertanto, sia i publisher sia i subscriber stabiliscono una connessione con il broker. Il *topic* è un canale logico denominato ed è indicato anche come canale o soggetto. Il broker invierà ai publisher solo i messaggi pubblicati sui topic a cui sono iscritti.
+
+È facile capire come funzionano le cose con un semplice diagramma, e quello a seguire mostra due device, una dashboard e un mobile phone. In questo caso e nel contesto del pattern Publish/Subscribe, questi componenti assumono il ruolo sia di publisher sia di subscriber e il broker è il dispatcher dei messaggi.
+
+image::iot_mqtt_message_broker_publish_subscribe_pattern-scaled.jpg[title="Figura 2 - Diagramma che mostra lo stile architetturale Publish/Subscribe"]
+
+La Dashboard e il Mobile Phone indicano al broker che vogliono iscriversi a tutti i messaggi che appartengono ai *topic* device01/temperature e device02/temperature. Questo significa che riceveranno tutti i messaggi pubblicati dai device (device01 e device02) sui rispettivi topic. La Dashboard e il Mobile Phone pubblicano dei messaggi di *"comando*" sui due topic device01/command e device02/command, a questi due topic sono sottoscritti i rispettivi device che riceveranno quindi i comandi per attivare o disattivare per esempio dei relè o attuatori.
+
+https://www.dontesta.it/wp-content/uploads/2021/04/iot_mqtt_message_broker_sample_optimize.gif[L'animazione] (pubblicata sui mio blog) vi aiuterà ancora di più a comprendere il flusso dei messaggi in questo contesto.
+
+Fino a questo momento abbiamo visto in superficie i componenti base di un sistema IoT. Dal successivo capitolo inizieremo a scendere più nello specifico della soluzione che vogliamo realizzare nel corso di questo articolo. Quello che andremo a realizzare sarà ovviamente in forma di prototipo e offrirà sicuramente degli ottimi spunti per la realizzazione di sistemi più complessi.

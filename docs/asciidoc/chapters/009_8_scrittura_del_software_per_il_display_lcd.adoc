@@ -1,0 +1,38 @@
+<<<
+== Scrittura del software per il display LCD
+
+Non è ancora finita! *Ricordate il display LCD che abbiamo connesso al Raspberry Pi?* Utilizzeremo il display LCD per visualizzare i dati ambientali pubblicati dai device ESP32 e per visualizzare lo stato dei relè nel caso in cui sia intervenuto un cambio di stato.
+
+Il software che andremo a scrivere (utilizzando il linguaggio Python) sarà quindi responsabile di:
+
+. effettuare la connessione al Message Broker utilizzando l'utenza gw-rpi4-device;
+. effettuare la sottoscrizione al topic esp32/telemetry_data;
+. effettuare la sottoscrizione ai topic esp32/releay_$\{id}_status;
+. leggere i dati ambientali ricevuti dal Message Broker e visualizzare le informazioni di temperatura, umidità e pressione per ogni device ESP32 sul display LCD;
+. attivare/disattivare i relè sulla base di un threshold impostato sulla temperatura inviando il comando adeguato sul topic esp32/command.
+
+Il software in questione sarà eseguito sul Raspberry Pi (quindi il Gateway), è pertanto necessario che sia installato almeno Python 3.8 e la libreria https://www.eclipse.org/paho/index.php?page=clients/python/index.php[paho], quest'ultima può essere installata tramite il comando: `pip install paho-mqtt`.
+
+Se ricordate bene, dal diagramma di Figura 2, la responsabilità di inviare messaggi di comando verso il topic esp32/command è della dashboard ma ho voluto mostrare come ottenere lo stesso risultato anche a questo livello.
+
+Lo script https://github.com/amusarra/rpi-mqtt-topic-subscribe/blob/master/mqtt_topic_subscribe_display_lcd.py[mqtt_topic_subscribe_display_lcd.py] che implementa le cinque funzionalità sopra descritte non presenta particolari complessità, per questo motivo vi invito a visionare il codice direttamente sul repository GitHub. Parecchio del codice Python deriva da questi due miei articoli: https://www.dontesta.it/2020/05/07/primo-maggio-2020-base-raspberry-pi-bot-telegram-display-lcd-rele/[Un primo maggio 2020 a base di Raspberry Pi&#44; Bot Telegram&#44; Display LCD e Relè] e https://www.dontesta.it/2019/08/04/raspberry-pi-sense-hat-come-pubblicare-dati-cloudamqp-mqtt/[Raspberry PI Sense HAT: Come pubblicare i dati su CloudAMQP via MQTT].
+
+Se adesso volessimo visionare i dati ambientali pubblicati dai due device e lo stato dei relè direttamente sul display LCD collegato al Raspberry Pi, non dovremmo fare altro che eseguire il clone del repository https://github.com/amusarra/rpi-mqtt-topic-subscribe.git sul Gateway e lanciare successivamente il comando (dall'interno della directory del progetto):
+
+[source,console,title="Console 5 - Lettura dei dati ambientali"]
+$ ./mqtt_topic_subscribe_display_lcd.py -s localhost -p 1883 -u gw-rpi4-device -P gw-rpi4-device`.
+
+Il comando prende in input il nome o indirizzo ip del Message Broker, la porta TCP/IP e username/password di accesso. All'avvio dello script, in console vedremo diverse informazioni utili a capire ciò che sta accadendo.
+
+<<<
+A seguire è mostrato lo screencast di https://asciinema.org/a/406760?autoplay=1[How to view environmental data via MQTT on LCD connected to the Raspberry Pi] in modo che possiate vedere esattamente l'esecuzione degli step indicati in precedenza.
+
+image::406760.svg[asciicast,title="Screencast 5 - How to view environmental data via MQTT on LCD connected to the Raspberry Pi",link="https://asciinema.org/a/406760?autoplay=1"]
+
+Le due immagini a seguire mostrano le diverse informazioni che sono visualizzate sul display LCD. Le informazioni fanno riferimento in particolare ai dati ambientali di temperatura e umidità e allo stato dei relè. Sul display LCD è riportata inoltre l'informazione di quale dispositivo sia la sorgenti dati.
+
+image::show_telemetry_data_on_lcd_attached_to_rpi_1-scaled.jpg[title="Figura 20 - Display LCD che mostra i dati ambientali di temperatura è umidità per ogni device"]
+
+image::show_telemetry_data_on_lcd_attached_to_rpi_2-scaled.jpg[title="Figura 21 - Display LCD che mostra lo stato dei relè per ogni device "]
+
+Step by step ci stiamo avvicinando alla meta. Il prossimo passo riguarda l'implementazione della dashboard.

@@ -1,0 +1,326 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1474.08333275" height="821.3331280000001" font-family="Consolas, Menlo, 'Bitstream Vera Sans Mono', monospace, 'Powerline Symbols'" font-size="14px">
+  <style>
+    .br { font-weight: bold }
+    .fa { fill-opacity: 0.5 }
+    .it { font-style: italic }
+    .un { text-decoration: underline }
+  </style>
+
+  <rect width="100%" height="100%" style="fill: #121314" rx="4" ry="4"></rect>
+
+  <svg x="8.42333333" y="9.333331000000001" class="default-text-fill">
+    <g style="shape-rendering: optimizeSpeed">
+
+        <rect x="362.20333319" y="242.66660600000003" width="25.269999990000002" height="18.666662000000002" style="fill: #000000"></rect><rect x="387.47333318" y="242.66660600000003" width="25.269999990000002" height="18.666662000000002" style="fill: #dd3c69"></rect><rect x="412.74333317" y="242.66660600000003" width="25.269999990000002" height="18.666662000000002" style="fill: #4ebf22"></rect><rect x="438.01333316" y="242.66660600000003" width="25.269999990000002" height="18.666662000000002" style="fill: #ddaf3c"></rect><rect x="463.28333315000003" y="242.66660600000003" width="25.269999990000002" height="18.666662000000002" style="fill: #26b0d7"></rect><rect x="488.55333314" y="242.66660600000003" width="25.269999990000002" height="18.666662000000002" style="fill: #b954e1"></rect><rect x="513.82333313" y="242.66660600000003" width="25.269999990000002" height="18.666662000000002" style="fill: #54e1b9"></rect><rect x="539.09333312" y="242.66660600000003" width="25.269999990000002" height="18.666662000000002" style="fill: #d9d9d9"></rect>
+
+        <rect x="362.20333319" y="261.33326800000003" width="25.269999990000002" height="18.666662000000002" style="fill: #4d4d4d"></rect><rect x="387.47333318" y="261.33326800000003" width="25.269999990000002" height="18.666662000000002" style="fill: #dd3c69"></rect><rect x="412.74333317" y="261.33326800000003" width="25.269999990000002" height="18.666662000000002" style="fill: #4ebf22"></rect><rect x="438.01333316" y="261.33326800000003" width="25.269999990000002" height="18.666662000000002" style="fill: #ddaf3c"></rect><rect x="463.28333315000003" y="261.33326800000003" width="25.269999990000002" height="18.666662000000002" style="fill: #26b0d7"></rect><rect x="488.55333314" y="261.33326800000003" width="25.269999990000002" height="18.666662000000002" style="fill: #b954e1"></rect><rect x="513.82333313" y="261.33326800000003" width="25.269999990000002" height="18.666662000000002" style="fill: #54e1b9"></rect><rect x="539.09333312" y="261.33326800000003" width="25.269999990000002" height="18.666662000000002" style="fill: #ffffff"></rect>
+
+        <rect x="0.0" y="597.3331840000001" width="8.42333333" height="18.666662000000002" style="fill: #d9d9d9"></rect>
+
+
+    </g>
+
+    <text style="fill: #cccccc">
+      <tspan y="0.0">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="210.58333325">
+$ neofetch
+        </tspan>
+      </tspan><tspan y="18.666662000000002">
+        <tspan dy="1em" x="101.07999996000001" class="br" style="fill: #dd3c69">
+.-/+oossssoo+/-.
+        </tspan><tspan x="362.20333319" class="br" style="fill: #dd3c69">
+amusarra
+        </tspan><tspan x="429.58999983">
+@
+        </tspan><tspan x="438.01333316" class="br" style="fill: #dd3c69">
+amusarra-pi-4b
+        </tspan>
+      </tspan><tspan y="37.333324000000005">
+        <tspan dy="1em" x="67.38666664" class="br" style="fill: #dd3c69">
+`:+ssssssssssssssssss+:`
+        </tspan><tspan x="362.20333319">
+-----------------------
+        </tspan>
+      </tspan><tspan y="55.99998600000001">
+        <tspan dy="1em" x="50.539999980000005" class="br" style="fill: #dd3c69">
+-+ssssssssssssssssssyyssss+-
+        </tspan><tspan x="362.20333319" class="br" style="fill: #dd3c69">
+OS
+        </tspan><tspan x="379.04999985">
+: Ubuntu 20.04.2 LTS aarch64
+        </tspan>
+      </tspan><tspan y="74.66664800000001">
+        <tspan dy="1em" x="33.69333332" class="br" style="fill: #dd3c69">
+.ossssssssssssssssss
+        </tspan><tspan x="202.15999992000002" class="br">
+dMMMNy
+        </tspan><tspan x="252.6999999" class="br" style="fill: #dd3c69">
+sssso.
+        </tspan><tspan x="362.20333319" class="br" style="fill: #dd3c69">
+Host
+        </tspan><tspan x="395.89666651">
+: Raspberry Pi 4 Model B Rev 1.4
+        </tspan>
+      </tspan><tspan y="93.33331000000001">
+        <tspan dy="1em" x="25.269999990000002" class="br" style="fill: #dd3c69">
+/sssssssssss
+        </tspan><tspan x="126.34999995" class="br">
+hdmmNNmmyNMMMMh
+        </tspan><tspan x="252.6999999" class="br" style="fill: #dd3c69">
+ssssss/
+        </tspan><tspan x="362.20333319" class="br" style="fill: #dd3c69">
+Kernel
+        </tspan><tspan x="412.74333317">
+: 5.4.0-1032-raspi
+        </tspan>
+      </tspan><tspan y="111.99997200000001">
+        <tspan dy="1em" x="16.84666666" class="br" style="fill: #dd3c69">
++sssssssss
+        </tspan><tspan x="101.07999996000001" class="br">
+hm
+        </tspan><tspan x="117.92666662" class="br" style="fill: #dd3c69">
+yd
+        </tspan><tspan x="134.77333328" class="br">
+MMMMMMMNddddy
+        </tspan><tspan x="244.27666657" class="br" style="fill: #dd3c69">
+ssssssss+
+        </tspan><tspan x="362.20333319" class="br" style="fill: #dd3c69">
+Uptime
+        </tspan><tspan x="412.74333317">
+: 6 hours, 35 mins
+        </tspan>
+      </tspan><tspan y="130.66663400000002">
+        <tspan dy="1em" x="8.42333333" class="br" style="fill: #dd3c69">
+/ssssssss
+        </tspan><tspan x="84.2333333" class="br">
+hNMMM
+        </tspan><tspan x="126.34999995" class="br" style="fill: #dd3c69">
+yh
+        </tspan><tspan x="143.19666661" class="br">
+hyyyyhmNMMMNh
+        </tspan><tspan x="252.6999999" class="br" style="fill: #dd3c69">
+ssssssss/
+        </tspan><tspan x="362.20333319" class="br" style="fill: #dd3c69">
+Packages
+        </tspan><tspan x="429.58999983">
+: 1781 (dpkg), 4 (snap)
+        </tspan>
+      </tspan><tspan y="149.33329600000002">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #dd3c69">
+.ssssssss
+        </tspan><tspan x="75.80999997" class="br">
+dMMMNh
+        </tspan><tspan x="126.34999995" class="br" style="fill: #dd3c69">
+ssssssssss
+        </tspan><tspan x="210.58333325" class="br">
+hNMMMd
+        </tspan><tspan x="261.12333323" class="br" style="fill: #dd3c69">
+ssssssss.
+        </tspan><tspan x="362.20333319" class="br" style="fill: #dd3c69">
+Shell
+        </tspan><tspan x="404.31999984000004">
+: bash 5.0.17
+        </tspan>
+      </tspan><tspan y="167.99995800000002">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #dd3c69">
++ssss
+        </tspan><tspan x="42.11666665" class="br">
+hhhyNMMNy
+        </tspan><tspan x="117.92666662" class="br" style="fill: #dd3c69">
+ssssssssssss
+        </tspan><tspan x="219.00666658" class="br">
+yNMMMy
+        </tspan><tspan x="269.54666656" class="br" style="fill: #dd3c69">
+sssssss+
+        </tspan><tspan x="362.20333319" class="br" style="fill: #dd3c69">
+Terminal
+        </tspan><tspan x="429.58999983">
+: /dev/pts/0
+        </tspan>
+      </tspan><tspan y="186.66662000000002">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #dd3c69">
+oss
+        </tspan><tspan x="25.269999990000002" class="br">
+yNMMMNyMMh
+        </tspan><tspan x="109.50333329" class="br" style="fill: #dd3c69">
+ssssssssssssss
+        </tspan><tspan x="227.42999991" class="br">
+hmmmh
+        </tspan><tspan x="269.54666656" class="br" style="fill: #dd3c69">
+ssssssso
+        </tspan><tspan x="362.20333319" class="br" style="fill: #dd3c69">
+CPU
+        </tspan><tspan x="387.47333318">
+: BCM2835 (4) @ 1.500GHz
+        </tspan>
+      </tspan><tspan y="205.33328200000003">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #dd3c69">
+oss
+        </tspan><tspan x="25.269999990000002" class="br">
+yNMMMNyMMh
+        </tspan><tspan x="109.50333329" class="br" style="fill: #dd3c69">
+sssssssssssssshmmmhssssssso
+        </tspan><tspan x="362.20333319" class="br" style="fill: #dd3c69">
+Memory
+        </tspan><tspan x="412.74333317">
+: 322MiB / 7811MiB
+        </tspan>
+      </tspan><tspan y="223.99994400000003">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #dd3c69">
++ssss
+        </tspan><tspan x="42.11666665" class="br">
+hhhyNMMNy
+        </tspan><tspan x="117.92666662" class="br" style="fill: #dd3c69">
+ssssssssssss
+        </tspan><tspan x="219.00666658" class="br">
+yNMMMy
+        </tspan><tspan x="269.54666656" class="br" style="fill: #dd3c69">
+sssssss+
+        </tspan>
+      </tspan><tspan y="242.66660600000003">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #dd3c69">
+.ssssssss
+        </tspan><tspan x="75.80999997" class="br">
+dMMMNh
+        </tspan><tspan x="126.34999995" class="br" style="fill: #dd3c69">
+ssssssssss
+        </tspan><tspan x="210.58333325" class="br">
+hNMMMd
+        </tspan><tspan x="261.12333323" class="br" style="fill: #dd3c69">
+ssssssss.
+        </tspan>
+      </tspan><tspan y="261.33326800000003">
+        <tspan dy="1em" x="8.42333333" class="br" style="fill: #dd3c69">
+/ssssssss
+        </tspan><tspan x="84.2333333" class="br">
+hNMMM
+        </tspan><tspan x="126.34999995" class="br" style="fill: #dd3c69">
+yh
+        </tspan><tspan x="143.19666661" class="br">
+hyyyyhdNMMMNh
+        </tspan><tspan x="252.6999999" class="br" style="fill: #dd3c69">
+ssssssss/
+        </tspan>
+      </tspan><tspan y="279.99993">
+        <tspan dy="1em" x="16.84666666" class="br" style="fill: #dd3c69">
++sssssssss
+        </tspan><tspan x="101.07999996000001" class="br">
+dm
+        </tspan><tspan x="117.92666662" class="br" style="fill: #dd3c69">
+yd
+        </tspan><tspan x="134.77333328" class="br">
+MMMMMMMMddddy
+        </tspan><tspan x="244.27666657" class="br" style="fill: #dd3c69">
+ssssssss+
+        </tspan>
+      </tspan><tspan y="298.66659200000004">
+        <tspan dy="1em" x="25.269999990000002" class="br" style="fill: #dd3c69">
+/sssssssssss
+        </tspan><tspan x="126.34999995" class="br">
+hdmNNNNmyNMMMMh
+        </tspan><tspan x="252.6999999" class="br" style="fill: #dd3c69">
+ssssss/
+        </tspan>
+      </tspan><tspan y="317.333254">
+        <tspan dy="1em" x="33.69333332" class="br" style="fill: #dd3c69">
+.ossssssssssssssssss
+        </tspan><tspan x="202.15999992000002" class="br">
+dMMMNy
+        </tspan><tspan x="252.6999999" class="br" style="fill: #dd3c69">
+sssso.
+        </tspan>
+      </tspan><tspan y="335.99991600000004">
+        <tspan dy="1em" x="50.539999980000005" class="br" style="fill: #dd3c69">
+-+sssssssssssssssss
+        </tspan><tspan x="210.58333325" class="br">
+yyy
+        </tspan><tspan x="235.85333324" class="br" style="fill: #dd3c69">
+ssss+-
+        </tspan>
+      </tspan><tspan y="354.666578">
+        <tspan dy="1em" x="67.38666664" class="br" style="fill: #dd3c69">
+`:+ssssssssssssssssss+:`
+        </tspan>
+      </tspan><tspan y="373.33324000000005">
+        <tspan dy="1em" x="101.07999996000001" class="br" style="fill: #dd3c69">
+.-/+oossssoo+/-.
+        </tspan>
+      </tspan><tspan y="410.66656400000005">
+        <tspan dy="1em" x="0.0" class="br" style="fill: #4ebf22">
+amusarra@amusarra-pi-4b
+        </tspan><tspan x="193.73666659">
+:
+        </tspan><tspan x="202.15999992000002" class="br" style="fill: #26b0d7">
+~
+        </tspan><tspan x="210.58333325">
+$ docker run -d --network edge-iot --name mqtt-broker -e EMQX_ALLOW_ANONYMOUS=false -p 8083:8083 -p 18083:18083 -p 1883:1883 emqx/emqx-edge:4.2.9
+        </tspan>
+      </tspan><tspan y="429.333226">
+        <tspan dy="1em" x="0.0">
+Unable to find image &#39;emqx/emqx-edge:4.2.9&#39; locally
+        </tspan>
+      </tspan><tspan y="447.99988800000006">
+        <tspan dy="1em" x="0.0">
+4.2.9: Pulling from emqx/emqx-edge
+        </tspan>
+      </tspan><tspan y="466.66655000000003">
+        <tspan dy="1em" x="0.0">
+47185b9379cb: Pull complete
+        </tspan>
+      </tspan><tspan y="485.33321200000006">
+        <tspan dy="1em" x="0.0">
+8e9701b49cfa: Pull complete
+        </tspan>
+      </tspan><tspan y="503.99987400000003">
+        <tspan dy="1em" x="0.0">
+ea736e07312a: Pull complete
+        </tspan>
+      </tspan><tspan y="522.6665360000001">
+        <tspan dy="1em" x="0.0">
+474c0a360cf3: Pull complete
+        </tspan>
+      </tspan><tspan y="541.333198">
+        <tspan dy="1em" x="0.0">
+1d1c53032fa7: Pull complete
+        </tspan>
+      </tspan><tspan y="559.99986">
+        <tspan dy="1em" x="0.0">
+e3c6de3252c4: Pull complete
+        </tspan>
+      </tspan><tspan y="578.6665220000001">
+        <tspan dy="1em" x="0.0">
+712a42bdcc4d: Extracting [===============================&gt;
+        </tspan><tspan x="648.59666641">
+]
+        </tspan><tspan x="673.8666664">
+13.76MB/22.03MB
+        </tspan>
+      </tspan>
+    </text>
+  </svg>
+
+  <g transform="translate(-40 -40)">
+    <svg x="50%" y="50%" width="80" height="80">
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000.0 1000.0" style="filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.4))">
+  <defs>
+    <mask id="small-triangle-mask">
+      <rect width="100%" height="100%" fill="white"></rect>
+      <polygon points="700.0 500.0, 400.00000000000006 326.7949192431122, 399.9999999999999 673.2050807568877" fill="black">
+      </polygon>
+    </mask>
+  </defs>
+  <polygon points="1000.0 500.0, 250.0000000000001 66.98729810778059, 249.99999999999977 933.0127018922192" mask="url(#small-triangle-mask)" fill="white">
+  </polygon>
+  <polyline points="673.2050807568878 400.0, 326.7949192431123 600.0" stroke="white" stroke-width="90">
+  </polyline>
+</svg>
+    </svg>
+  </g>
+</svg>

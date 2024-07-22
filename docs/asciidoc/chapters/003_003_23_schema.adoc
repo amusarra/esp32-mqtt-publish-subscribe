@@ -1,0 +1,7 @@
+=== Schema dell'architettura
+
+Una volta visto quali sono i componenti hardware e software che andranno a costituire la nostra soluzione, non rimane altro che metterli insieme. La figura a seguire mostra lo schema dell'architettura. All'interno dello schema è possibile notare ogni componente hardware e software che abbiamo descritto nei precedenti paragrafi. In questa architettura ho inserito volutamente due device che ho anche battezzato con un nome, ipotizzando che questi siano in zone diverse del campo. Certamente potremmo inserire altri device dello stesso tipo in questa architettura.
+
+*Il dialetto comune utilizzato per le comunicazioni tra Gateway, Device e Dashboard è l'MQTT*. L'ESP32 comunica con il sensore ambientale tramite il bus I2C, mentre per perseguire azioni verso il modulo dei relè utilizza quattro canali GPIO.
+
+image::iot-sample-solution-weather-station-scaled-e1618260767131.jpg[title="Figura 7 - Architettura della soluzione IoT con evidenza dei componenti hardware e software"]

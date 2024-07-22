@@ -1,0 +1,23 @@
+<<<
+== Primo test d'integrazione
+
+Siamo arrivati a un bel punto! Ci sono le condizioni necessarie per poter fare i primi test d'integrazione. *In cosa consistono questi test d'integrazione?*
+
+In questo istante quello che abbiamo è il Message Broker installato sul Raspberry Pi e i due device ESP32 con il software appena "flashato". Prima di procedere con il test d'integrazione dobbiamo accendere il Raspberry Pi e avviare il Message Broker e successivamente alimentare i due device ESP32. Il test d'integrazione prevede la verifica dei seguenti punti:
+
+. Dalla dashboard di EMQ X Edge verificare che risultino connessi i due device ESP32 (dalla voce di menù Clients). I due device connessi dovrebbero essere identificati dal prefisso *esp32-client-* (cosi come scritto sul https://github.com/amusarra/esp32-mqtt-publish-subscribe/blob/master/src/esp32_mqtt_publish_subscribe.cpp#L117[codice sorgente]);
+. Connettersi ai Serial Monitor (via PlatformIO) dei due device ESP32 e accertare che entrambe i dispositivi siano connessi alla rete WiFi e che stiano pubblicando i dati ambientali a intervalli regolari di cinque secondi;
+. Dalla dashboard di EMQ X Edge, attraverso il tool Websocket eseguire la sottoscrizione al topic esp32/telemetry_data utilizzando l'account gw-rpi4-device e verificare la ricezione dei messaggi contenenti i dati ambientali che provengono dai due dispositivi;
+. Dalla dashboard di EMQ X Edge, attraverso il tool Websocket eseguire la pubblicazione dei comandi di attivazione/disattivazione relè e di status dei relè sul topic esp32/command (per entrambe i device), utilizzando sempre l'account gw-rpi4-device. Tramite il Serial Monitor verificare la corretta ricezione dei messaggi su entrambe i device e l'effettiva esecuzione dei comandi.
+
+Le figure successive mostrano i task di verifica descritti nel precedente elenco.
+
+image::emqx_edge_clients_connection.png[title="Figura 16 - Client connessi al Message Broker"]
+
+image::emqx_edge_websocket_connection_test.png[title="Figura 17 - Test di connessione al Message Broker tramite la porta Websocket specificando l'utente gw-rpi4-device"]
+
+image::emqx_edge_websocket_subscribe_topic_test.png[title="Figura 18 - Test di sottoscrizione al topic esp32/telemetry_data utilizzando l'utente gw-rpi4-device"]
+
+image::emqx_edge_websocket_publish_topic_test.png[title="Figura 19 - Test di pubblicazione sul topic esp32/command con l'utente gw-rpi4-device"]
+
+Una volta verificato che tutti i punti siano soddisfatti, possiamo ritenere concluso il test d'integrazione ed essere felici per il risultato raggiunto.

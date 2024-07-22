@@ -1,0 +1,26 @@
+=== Upload del software sul device ESP32
+
+Siamo arrivati allo step finale per quel che riguarda i device ESP32, ovvero, l'upload di quello che può essere anche definito il firmware dei nostri device. L'operazione di upload è sempre demandata a PlatformIO utilizzando il semplice comando: `pio run --target upload --environment esp32dev`. La stessa operazione è possibile eseguirla anche attraverso l'IDE.
+
+In realtà è anche possibile saltare il processo di compilazione del progetto, il processo di upload, in caso fosse necessario, penserà ad avviare la compilazione del codice per proseguire poi con l'upload sull'ESP32.
+
+A seguire è mostrato lo screencast di https://asciinema.org/a/406685?autoplay=1[Upload software to ESP32 Device via PlatformIO] in modo che possiate vedere esattamente l'esecuzione della fase di upload del firmware .pio/build/esp32dev/firmware.bin sul device ESP32.
+
+image::406685.svg[asciicast,title="Screencast 4 - Upload software to ESP32 Device via PlatformIO",link="https://asciinema.org/a/406685?autoplay=1"]
+
+Sull'immagine a seguire è possibile notare lo stato dei led dopo l'upload del software sui device e in particolare del led di colore blue. Quando il led blue è accesso in modo fisso, vuol dire che:
+
+. la connessione alla rete WiFi è andata a buon fine;
+. il ping verso il Message Broker è andato a buon fine;
+. la connessione verso il Message Broker EMQ X Edge e andata a buone fine;
+. la sottoscrizione al topic esp32/command è andata a buon fine.
+
+image::status_led_upload_software_esp32_device-scaled.jpg[title="Figura 15 - Indicazione dell'operatività del device ESP32 tramite il led blue presente sulla scheda di sviluppo"]
+
+In definitiva questo led (https://github.com/amusarra/esp32-mqtt-publish-subscribe/blob/master/src/esp32_mqtt_publish_subscribe.cpp#L70[attestato sul GPIO 2]) ci da indicazioni se il tutto sta andando per il verso giusto. In questo caso siamo fortunati, il led è accesso e siamo quindi sicuri che i dati ambientali vengono pubblicati sul topic esp32/telemetry_data e che il dispositivo è pronto a ricevere comandi sul topic esp32/command. Se volessimo controllare l'attività del device, potremmo connetterci al monitor seriale sfruttando sempre PlatformIO, utilizzando il comando: `pio device monitor --environment esp32dev`
+
+L'immagine a seguire mostra l'output del comando indicato in precedenza. Com'è possibile vedere, otteniamo diverse informazioni in output. Informazioni sul modello del chip, informazioni sulla rete WiFi a cui è connesso il device, informazioni sul Message Broker a cui il device è connesso e per finire il JSON pubblicato sul topic esp32/telemetry_data.
+
+image::platformio_attach_device_serial_monitor_to_esp32.png[title="Figura 16 - Attach del monitor seriale su uno dei device ESP32 al fine di monitorare le attività in corso"]
+
+Dobbiamo ripetere le stesse operazioni di compilazione e upload del software anche per il secondo device e una volta fatto possiamo definire conclusa questa fase e andare a realizzare il primo test d'integrazione.
